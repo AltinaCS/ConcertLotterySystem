@@ -1,4 +1,4 @@
-package org.example.concertlotterysystem;
+package org.example.concertlotterysystem.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

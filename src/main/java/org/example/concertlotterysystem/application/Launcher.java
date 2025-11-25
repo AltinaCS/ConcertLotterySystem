@@ -1,4 +1,4 @@
-package org.example.concertlotterysystem;
+package org.example.concertlotterysystem.application;
 
 import javafx.application.Application;
 
