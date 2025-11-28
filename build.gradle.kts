@@ -39,6 +39,8 @@ javafx {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    implementation("org.xerial:sqlite-jdbc:3.46.0.0")
 }
 
 tasks.withType<Test> {

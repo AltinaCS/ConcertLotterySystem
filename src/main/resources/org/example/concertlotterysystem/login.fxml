@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.concertlotterysystem.controllers.LoginController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.concertlotterysystem.controllers.LoginController_Backup">
    <children>
       <Button fx:id="loginButton" layoutX="274.0" layoutY="310.0" mnemonicParsing="false" text="登入" />
       <PasswordField fx:id="passwordField" layoutX="220.0" layoutY="232.0" promptText="請輸入密碼" />
