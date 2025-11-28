@@ -28,11 +28,12 @@ tasks.withType<JavaCompile> {
 application {
     mainModule.set("org.example.concertlotterysystem")
     mainClass.set("org.example.concertlotterysystem.HelloApplication")
+    mainClass.set("org.example.concertlotterysystem.application.Launcher")
 }
 
 javafx {
     version = "21.0.6"
-    modules = listOf("javafx.controls", "javafx.fxml")
+    modules = listOf("javafx.controls", "javafx.fxml","javafx.graphics")
 }
 
 dependencies {
