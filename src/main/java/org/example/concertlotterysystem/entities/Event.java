@@ -7,32 +7,82 @@ import java.util.List;
 public class Event {
     private String eventId;
     private String title;
+    private String description;
+    private String location;
     private EventStatus status;
     private int quota;
+    private int perMemberLimit;
 
-    //time control
+    // time control
+    private LocalDateTime eventTime;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private LocalDateTime drawTime;
 
-    //Sign Up
+    // Sign Up
     private List<LotteryEntry> entries;
 
-    public Event(String id, String title, int quota){
-        this.eventId = id;
+    /**
+     * Full constructor：一次指定所有欄位
+     */
+    public Event(String eventId,
+                 String title,
+                 String description,
+                 String location,
+                 EventStatus status,
+                 int quota,
+                 int perMemberLimit,
+                 LocalDateTime eventTime,
+                 LocalDateTime startTime,
+                 LocalDateTime endTime,
+                 LocalDateTime drawTime,
+                 List<LotteryEntry> entries) {
+
+        this.eventId = eventId;
         this.title = title;
+        this.description = description;
+        this.location = location;
+        this.status = status;
         this.quota = quota;
-        this.entries = new ArrayList<>();
-        this.status = EventStatus.OPEN;
+        this.perMemberLimit = perMemberLimit;
+        this.eventTime = eventTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.drawTime = drawTime;
+        // 避免外面傳 null
+        this.entries = (entries != null) ? entries : new ArrayList<>();
     }
 
-    public boolean isRegistrationOpen(){
+    /**
+     * Simplified constructor：給現在快速 new 用
+     * 其餘欄位先給預設值
+     */
+    public Event(String id, String title, int quota) {
+        this(
+                id,
+                title,
+                null,                 // description
+                null,                 // location
+                EventStatus.OPEN,     // 預設狀態
+                quota,
+                1,                    // 預設每人上限 1
+                null,                 // eventTime
+                null,                 // startTime
+                null,                 // endTime
+                null,                 // drawTime
+                new ArrayList<>()     // 空的 entries
+        );
+    }
+
+    public boolean isRegistrationOpen() {
         LocalDateTime now = LocalDateTime.now();
         return status == EventStatus.OPEN &&
                 now.isAfter(startTime) &&
                 now.isBefore(endTime);
     }
 
-    //Getter&Setter
+    // ===== Getter & Setter =====
+
     public String getEventId() {
         return eventId;
     }
@@ -43,6 +93,24 @@ public class Event {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    // description
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    // location
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public EventStatus getStatus() {
@@ -61,6 +129,22 @@ public class Event {
         this.quota = quota;
     }
 
+    public int getPerMemberLimit() {
+        return perMemberLimit;
+    }
+
+    public void setPerMemberLimit(int perMemberLimit) {
+        this.perMemberLimit = perMemberLimit;
+    }
+
+    public LocalDateTime getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(LocalDateTime eventTime) {
+        this.eventTime = eventTime;
+    }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -77,4 +161,19 @@ public class Event {
         this.endTime = endTime;
     }
 
+    public LocalDateTime getDrawTime() {
+        return drawTime;
+    }
+
+    public void setDrawTime(LocalDateTime drawTime) {
+        this.drawTime = drawTime;
+    }
+
+    public List<LotteryEntry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<LotteryEntry> entries) {
+        this.entries = entries;
+    }
 }

@@ -18,10 +18,15 @@ public class DBInitializer {
         String sqlEvents = "CREATE TABLE IF NOT EXISTS events ("
                 + " event_id TEXT PRIMARY KEY,"
                 + " title TEXT NOT NULL,"
+                + " description TEXT,"
+                + " location TEXT,"
                 + " status TEXT NOT NULL,"
                 + " quota INTEGER NOT NULL,"
+                + " per_member_limit INTEGER,"
+                + " event_time TEXT,"
                 + " start_time TEXT,"
                 + " end_time TEXT"
+                + " draw_time TEXT"
                 + ");";
 
         String sqlEntries = "CREATE TABLE IF NOT EXISTS lottery_entries ("
