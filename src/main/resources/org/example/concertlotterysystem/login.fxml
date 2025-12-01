@@ -7,15 +7,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.concertlotterysystem.controllers.LoginController_Backup">
+<AnchorPane fx:id="loginPage" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.concertlotterysystem.controllers.LoginController">
    <children>
-      <Button fx:id="loginButton" layoutX="274.0" layoutY="310.0" mnemonicParsing="false" text="登入" />
+      <Button fx:id="loginButton" layoutX="274.0" layoutY="310.0" mnemonicParsing="false" onAction="#login" text="登入" />
       <PasswordField fx:id="passwordField" layoutX="220.0" layoutY="232.0" promptText="請輸入密碼" />
       <TextField fx:id="accountField" layoutX="220.0" layoutY="177.0" promptText="請輸入帳號" />
       <Label layoutX="220.0" layoutY="145.0" text="帳號" />
       <Label layoutX="220.0" layoutY="208.0" text="密碼" />
-      <Hyperlink fx:id="forgetPwdLink" layoutX="212.0" layoutY="274.0" text="忘記密碼?" />
-      <Hyperlink fx:id="registerLink" layoutX="324.0" layoutY="274.0" text="點我註冊" />
+      <Hyperlink fx:id="forgetPwdLink" layoutX="212.0" layoutY="274.0" onAction="#ChangePageToForgetPwdPage" text="忘記密碼?" />
+      <Hyperlink fx:id="registerLink" layoutX="324.0" layoutY="274.0" onAction="#ChangePageToForgetRegisterPage" text="點我註冊" />
    </children>
 </AnchorPane>
