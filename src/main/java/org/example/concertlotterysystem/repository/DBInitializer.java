@@ -33,6 +33,7 @@ public class DBInitializer {
                 + " FOREIGN KEY (event_id) REFERENCES events(event_id),"
                 + " FOREIGN KEY (member_id) REFERENCES members(member_id)"
                 + ");";
+        //需要擴充Table的話請往下寫
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
