@@ -4,9 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.example.concertlotterysystem.constants.Constants;
+
+import static org.example.concertlotterysystem.constants.Constants.DB_URL;
 
 public class DBInitializer {
-    private static final String DB_URL = "jdbc:sqlite:lottery.db";
+
 
     public static void createNewTables() {
         String sqlMembers = "CREATE TABLE IF NOT EXISTS members ("
@@ -45,14 +51,12 @@ public class DBInitializer {
                 + ");";
 
         //需要擴充Table的話請往下寫
-
+        String[] sql_tables = {sqlMembers,sqlEvents,sqlCredentials,sqlEntries};
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
-
-            stmt.execute(sqlMembers);
-            stmt.execute(sqlEvents);
-            stmt.execute(sqlEntries);
-
+            for (String table: sql_tables){
+                stmt.execute(table);
+            }
         } catch (SQLException e) {
             System.err.println("❌ 資料庫初始化失敗: " + e.getMessage());
             e.printStackTrace();

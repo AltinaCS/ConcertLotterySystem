@@ -17,5 +17,8 @@
       <Hyperlink fx:id="loginLink" layoutX="212.0" layoutY="274.0" onAction="#changePageToLoginPage" text="回登入頁面" />
       <PasswordField fx:id="passwordConfirmField" layoutX="220.0" layoutY="242.0" promptText="請再輸入一次密碼" />
       <Label layoutX="217.0" layoutY="220.0" text="確認密碼" />
+      <Label layoutX="220.0" layoutY="52.0" text="名字" />
+      <TextField fx:id="nameField" layoutX="220.0" layoutY="77.0" promptText="請設定帳號名稱" />
+      <Label fx:id="messageLabel" layoutX="331.0" layoutY="277.0" />
    </children>
 </AnchorPane>

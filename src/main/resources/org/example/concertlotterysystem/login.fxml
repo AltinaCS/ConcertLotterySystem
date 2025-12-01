@@ -16,5 +16,6 @@
       <Label layoutX="220.0" layoutY="208.0" text="密碼" />
       <Hyperlink fx:id="forgetPwdLink" layoutX="212.0" layoutY="274.0" onAction="#ChangePageToForgetPwdPage" text="忘記密碼?" />
       <Hyperlink fx:id="registerLink" layoutX="324.0" layoutY="274.0" onAction="#ChangePageToForgetRegisterPage" text="點我註冊" />
+      <Label fx:id="messageLabel" layoutX="364.0" layoutY="314.0" />
    </children>
 </AnchorPane>
