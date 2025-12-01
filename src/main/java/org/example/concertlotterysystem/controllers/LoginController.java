@@ -1,12 +1,16 @@
 package org.example.concertlotterysystem.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.concertlotterysystem.services.PageRouterService;
 
-public class LoginController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginController implements Initializable {
     @FXML
     private AnchorPane loginPage;
     @FXML
@@ -19,7 +23,10 @@ public class LoginController {
     private Hyperlink registerLink;
     @FXML
     private Button loginButton;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
     @FXML
     public void ChangePageToForgetPwdPage(){
         PageRouterService.setPrimaryPage((Stage) loginPage.getScene().getWindow());
@@ -34,5 +41,6 @@ public class LoginController {
     public void login(){
 
     }
+
 
 }

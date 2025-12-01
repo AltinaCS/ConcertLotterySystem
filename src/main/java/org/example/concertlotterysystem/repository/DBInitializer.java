@@ -14,7 +14,12 @@ public class DBInitializer {
                 + " name TEXT NOT NULL,"
                 + " email TEXT NOT NULL"
                 + ");";
-
+        // 🚨 新增：專門儲存認證資訊的資料表
+        String sqlCredentials = "CREATE TABLE IF NOT EXISTS credentials ("
+                + " member_id TEXT PRIMARY KEY," // FK，也是 PK
+                + " hashed_password TEXT NOT NULL,"
+                + " FOREIGN KEY (member_id) REFERENCES members(member_id)"
+                + ");";
         String sqlEvents = "CREATE TABLE IF NOT EXISTS events ("
                 + " event_id TEXT PRIMARY KEY,"
                 + " title TEXT NOT NULL,"
@@ -38,6 +43,7 @@ public class DBInitializer {
                 + " FOREIGN KEY (event_id) REFERENCES events(event_id),"
                 + " FOREIGN KEY (member_id) REFERENCES members(member_id)"
                 + ");";
+
         //需要擴充Table的話請往下寫
 
         try (Connection conn = DriverManager.getConnection(DB_URL);

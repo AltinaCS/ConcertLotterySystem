@@ -5,7 +5,7 @@ module org.example.concertlotterysystem {
 
     // 1. JDBC 依賴 (正確)
     requires java.sql;
-
+    requires jbcrypt;
 
 
     // 2. 匯出/開放 啟動與控制層
