@@ -18,8 +18,6 @@ public class Member {
         this.ticketList= new ArrayList<>();
         if(name.equals("admin")){
             this.qualification = MemberQualificationStatus.ADMIN;
-        } else if (name.equals("vip")) {
-            this.qualification = MemberQualificationStatus.VIP;
         }
         else{
             this.qualification=MemberQualificationStatus.MEMBER;
