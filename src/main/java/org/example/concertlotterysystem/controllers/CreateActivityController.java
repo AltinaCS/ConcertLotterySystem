@@ -175,7 +175,6 @@ public class CreateActivityController {
                     "時間欄位格式錯誤（" + text + "），請使用 yyyy-MM-dd HH:mm，例如 2025-12-10 10:00");
         }
     }
-
     /** 解析整數欄位；若失敗丟 IllegalArgumentException */
     private int parseIntField(TextField field, String fieldName) {
         String text = field.getText();
