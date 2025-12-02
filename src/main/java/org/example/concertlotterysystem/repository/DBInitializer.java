@@ -18,7 +18,8 @@ public class DBInitializer {
         String sqlMembers = "CREATE TABLE IF NOT EXISTS members ("
                 + " member_id TEXT PRIMARY KEY,"
                 + " name TEXT NOT NULL,"
-                + " email TEXT NOT NULL"
+                + " email TEXT NOT NULL,"
+                + " qualification TEXT NOT NULL DEFAULT 'MEMBER'" // 🚨 新增 qualification 欄位
                 + ");";
         // 🚨 新增：專門儲存認證資訊的資料表
         String sqlCredentials = "CREATE TABLE IF NOT EXISTS credentials ("
@@ -51,6 +52,7 @@ public class DBInitializer {
                 + ");";
 
         //需要擴充Table的話請往下寫
+        //需要擴充Table時這個一定要擴充
         String[] sql_tables = {sqlMembers,sqlEvents,sqlCredentials,sqlEntries};
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {

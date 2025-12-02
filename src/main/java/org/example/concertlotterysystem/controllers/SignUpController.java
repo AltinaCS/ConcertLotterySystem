@@ -56,13 +56,21 @@ public class SignUpController implements Initializable {
         // 2. 處理結果
         if (newMember != null) {
             // 註冊成功
-            messageLabel.setText("✅ 註冊成功！請使用您的帳號登入。");
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("成功");
+            alert.setHeaderText(null);
+            alert.setContentText("✅ 註冊成功！請使用您的帳號登入。");
+            alert.showAndWait();
             // 3. 💡 導航回登入頁面，並給出成功提示
             PageRouterService.changeThePage("login.fxml",  600, 400);
 
         } else {
             // 註冊失敗 (Service 返回 null，通常是 Email 已存在)
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("錯誤");
+            alert.setHeaderText(null);
+            alert.setContentText("❌ 註冊失敗，該 Email 可能已被使用。");
+            alert.showAndWait();
             messageLabel.setText("❌ 註冊失敗，該 Email 可能已被使用。");
         }
     }
