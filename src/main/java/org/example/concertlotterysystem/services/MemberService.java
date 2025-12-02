@@ -5,7 +5,7 @@ package org.example.concertlotterysystem.services;
 import org.example.concertlotterysystem.entities.Member;
 import org.example.concertlotterysystem.repository.MemberDAO;
 import org.example.concertlotterysystem.repository.CredentialDAO;
-import org.mindrot.jbcrypt.BCrypt; // 使用 jBCrypt 函式庫
+import org.mindrot.jbcrypt.BCrypt;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -14,41 +14,32 @@ public class MemberService {
     private final MemberDAO memberDAO;
     private final CredentialDAO credentialDAO;
 
-    // 構造函數：注入 DAO 依賴
+
     public MemberService(MemberDAO memberDAO, CredentialDAO credentialDAO) {
         this.memberDAO = memberDAO;
         this.credentialDAO = credentialDAO;
     }
-
-    // -------------------------------------------------------------
-    // 核心方法一：會員註冊 (Registration)
-    // -------------------------------------------------------------
     public Member createMember(String name, String email, String password) {
 
-        // 1. 業務檢查：Email 唯一性
+
         if (memberDAO.findByEmail(email) != null) {
-            System.out.println("⚠️ 註冊失敗：Email 已被註冊。");
+            System.out.println("⚠註冊失敗：Email 已被註冊。");
             return null;
         }
 
         try {
-            // 2. 準備數據：ID 和雜湊密碼
+
             String newMemberId = UUID.randomUUID().toString();
-            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt()); // 雜湊密碼
-
-            // 3. 創建 Member 實體 (不包含密碼)
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
             Member newMember = new Member(newMemberId, name, email);
+            memberDAO.save(newMember);
+            credentialDAO.save(newMemberId, hashedPassword);
 
-            // 4. 執行資料庫操作：儲存會員和憑證（這裡需要交易控制來保證兩者都成功）
-            memberDAO.save(newMember); // 儲存會員資訊到 members 表
-            credentialDAO.save(newMemberId, hashedPassword); // 儲存憑證到 credentials 表
-
-            System.out.println("✅ 會員註冊成功！ID: " + newMemberId);
+            System.out.println("會員註冊成功！ID: " + newMemberId);
             return newMember;
 
         } catch (SQLException e) {
-            System.err.println("❌ 註冊失敗 (資料庫操作): " + e.getMessage());
-            // 在實際應用中，這裡應包含事務回滾 (Transaction Rollback) 邏輯
+            System.err.println("註冊失敗 (資料庫操作): " + e.getMessage());
             return null;
         }
     }
