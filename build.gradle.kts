@@ -39,7 +39,10 @@ javafx {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-
+    // 🚨 新增：用於密碼雜湊 (BCrypt)
+    implementation("org.mindrot:jbcrypt:0.4")
+// 使用較簡單的版本
+// 確保版本相容
     implementation("org.xerial:sqlite-jdbc:3.46.0.0")
 }
 

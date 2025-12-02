@@ -14,7 +14,7 @@ public class PageRouterService {
     public static void setPrimaryPage(Stage currentStage){
         PageRouterService.primaryStage = currentStage;
     }
-    public static void ChangeThePage(String fxml_file, double width, double height) {
+    public static void changeThePage(String fxml_file, double width, double height) {
 
         final String PAGE = Constants.PATH_TO_FXML_PAGE + fxml_file;
 
