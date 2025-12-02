@@ -58,7 +58,11 @@ public class LoginController implements Initializable {
         String password = passwordField.getText();
 
         if (email.isEmpty() || password.isEmpty()) {
-            accountField.setText("請輸入 Email 和密碼。");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("錯誤");
+            alert.setHeaderText(null);
+            alert.setContentText("請填寫帳號及密碼");
+            alert.showAndWait();
             return;
         }
 
@@ -71,6 +75,11 @@ public class LoginController implements Initializable {
 
             // 3. 導航到主頁面
             // 💡 假設主頁 FXML 為 'main-view.fxml'
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("成功");
+            alert.setHeaderText(null);
+            alert.setContentText("✅ 登入成功！");
+            alert.showAndWait();
             PageRouterService.changeThePage("main-view.fxml",  600, 400);
 
         } else {

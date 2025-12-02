@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.example.concertlotterysystem.entities.Event;
 import org.example.concertlotterysystem.entities.EventStatus;
+import org.example.concertlotterysystem.services.PageRouterService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -137,6 +138,7 @@ public class CreateActivityController {
     @FXML
     private void onCancelClicked(ActionEvent eventAction) {
         clearForm();
+        PageRouterService.changeThePage("main-view.fxml",600,400);
     }
 
 // --------- 工具方法區 ---------

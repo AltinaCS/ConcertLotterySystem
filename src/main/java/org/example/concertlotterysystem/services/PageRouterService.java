@@ -16,7 +16,7 @@ public class PageRouterService {
     }
     public static void changeThePage(String fxml_file, double width, double height) {
 
-        final String PAGE = Constants.PATH_TO_FXML_PAGE + fxml_file;
+        final String PAGE = Constants.PATH_TO_FXML_PAGE+fxml_file;
 
         try {
             // 修正 FXML 載入：使用 PageRouter.class 來定位資源
@@ -24,6 +24,7 @@ public class PageRouterService {
 
             // 修正 Stage 存取：使用傳入的 currentStage
             Scene scene = new Scene(fxmlLoader.load(), width, height);
+            primaryStage.setResizable(false);
             primaryStage.setTitle("Concert Lottery System");
             primaryStage.setScene(scene);
             primaryStage.show();
