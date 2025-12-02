@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx/21"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="org.example.concertlotterysystem.controllers.CreateActivityController"
+          hgap="10" vgap="10" padding="20">
+
+    <!-- 標題 -->
+    <Label text="Create Activity"
+           style="-fx-font-size: 18px; -fx-font-weight: bold;"
+           GridPane.columnSpan="2"
+           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+
+    <!-- Title -->
+    <Label text="Title:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="titleField"
+               promptText="e.g. Concert Name"
+               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <!-- Location -->
+    <Label text="Location:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <TextField fx:id="locationField"
+               promptText="e.g. Taipei Arena"
+               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+    <!-- Description -->
+    <Label text="Description:" GridPane.rowIndex="3" GridPane.columnIndex="0"
+           alignment="TOP_LEFT"/>
+    <TextArea fx:id="descriptionArea"
+              promptText="Short description of the event"
+              prefRowCount="3"
+              GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+    <!-- Event date / time -->
+    <Label text="Event Date:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <DatePicker fx:id="eventDatePicker"
+                GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+    <Label text="Event Time (HH:mm):"
+           GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+    <TextField fx:id="eventTimeField"
+               promptText="e.g. 19:30"
+               GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+    <!-- Registration window -->
+    <Label text="Registration Start (yyyy-MM-dd HH:mm):"
+           wrapText="true"
+           GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+    <TextField fx:id="startTimeField"
+               promptText="e.g. 2025-12-10 10:00"
+               GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+    <Label text="Registration End (yyyy-MM-dd HH:mm):"
+           wrapText="true"
+           GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+    <TextField fx:id="endTimeField"
+               promptText="e.g. 2025-12-15 23:59"
+               GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+    <!-- Draw time -->
+    <Label text="Draw Time (yyyy-MM-dd HH:mm):"
+           wrapText="true"
+           GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+    <TextField fx:id="drawTimeField"
+               promptText="e.g. 2025-12-16 12:00"
+               GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+    <!-- Quota & per-member limit -->
+    <Label text="Total Quota:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+    <TextField fx:id="quotaField"
+               promptText="e.g. 500"
+               GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+    <Label text="Per-member Limit:"
+           GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+    <TextField fx:id="perMemberLimitField"
+               promptText="e.g. 2"
+               GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+
+    <!-- Status -->
+    <Label text="Status:" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
+    <ComboBox fx:id="statusComboBox"
+              prefWidth="200"
+              GridPane.rowIndex="11" GridPane.columnIndex="1"/>
+
+    <!-- Buttons -->
+    <HBox spacing="10"
+          alignment="CENTER_RIGHT"
+          GridPane.rowIndex="12" GridPane.columnIndex="0" GridPane.columnSpan="2">
+        <children>
+            <Button fx:id="createButton"
+                    text="Create"
+                    onAction="#onCreateClicked"/>
+            <Button fx:id="cancelButton"
+                    text="Cancel"
+                    onAction="#onCancelClicked"/>
+        </children>
+        <padding>
+            <Insets top="10" right="0" bottom="0" left="0"/>
+        </padding>
+    </HBox>
+</GridPane>
