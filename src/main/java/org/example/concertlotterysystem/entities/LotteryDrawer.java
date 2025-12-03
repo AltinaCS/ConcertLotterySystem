@@ -1,5 +1,7 @@
 package org.example.concertlotterysystem.entities;
 
+import org.example.concertlotterysystem.repository.LotteryDrawerDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -8,11 +10,12 @@ public class LotteryDrawer {
     private List<LotteryEntry> lotteryEntryList;
     private int quota;
 
+    private final LotteryDrawerDAO lotteryDrawerDAO = new LotteryDrawerDAO();
     private static final Random random = new Random();
 
-    public LotteryDrawer(int quota){
-        lotteryEntryList = new ArrayList();
-        this.quota = quota;
+    public LotteryDrawer(Event event){
+        lotteryEntryList = lotteryDrawerDAO.getLotteryEntry(event);
+        this.quota = event.getQuota();
     }
 
     public void runLottery(){

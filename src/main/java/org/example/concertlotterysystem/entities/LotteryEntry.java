@@ -13,6 +13,13 @@ public class LotteryEntry {
         this.status = LotteryEntryStatus.PENDING;
     }
 
+    public LotteryEntry(String entryId, String eventId, String memberId, LotteryEntryStatus status){
+        this.entryId = entryId;
+        this.eventId = eventId;
+        this.memberId = memberId;
+        this.status = status;
+    }
+
     public String getEntryId(){
         return entryId;
     }
