@@ -19,7 +19,7 @@ public class DBInitializer {
                 + " member_id TEXT PRIMARY KEY,"
                 + " name TEXT NOT NULL,"
                 + " email TEXT NOT NULL,"
-                + " qualification TEXT NOT NULL DEFAULT 'MEMBER'," // 🚨 新增 qualification 欄位
+                + " qualification TEXT NOT NULL DEFAULT 'MEMBER' " // 🚨 新增 qualification 欄位
                 + ");";
         // 🚨 新增：專門儲存認證資訊的資料表
         String sqlCredentials = "CREATE TABLE IF NOT EXISTS credentials ("
@@ -32,12 +32,12 @@ public class DBInitializer {
                 + " title TEXT NOT NULL,"
                 + " description TEXT,"
                 + " location TEXT,"
-                + " status TEXT NOT NULL,"
+                + " status TEXT NOT NULL,"  // <-- 確認 status 在這裡
                 + " quota INTEGER NOT NULL,"
                 + " per_member_limit INTEGER,"
                 + " event_time TEXT,"
                 + " start_time TEXT,"
-                + " end_time TEXT"
+                + " end_time TEXT,"
                 + " draw_time TEXT"
                 + ");";
 

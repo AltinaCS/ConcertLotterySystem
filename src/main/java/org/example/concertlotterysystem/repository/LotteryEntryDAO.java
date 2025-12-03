@@ -1,3 +1,7 @@
+package org.example.concertlotterysystem.repository;
+
+import org.example.concertlotterysystem.entities.LotteryEntry;
+
 import java.sql.*;
 
 public class LotteryEntryDAO {
