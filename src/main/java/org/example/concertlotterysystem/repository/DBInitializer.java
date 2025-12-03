@@ -19,9 +19,7 @@ public class DBInitializer {
                 + " member_id TEXT PRIMARY KEY,"
                 + " name TEXT NOT NULL,"
                 + " email TEXT NOT NULL,"
-                + " qualification TEXT NOT NULL DEFAULT 'MEMBER'," // 🚨 新增 qualification 欄位
-                + " event_id TEXT NOT NULL,"
-                + " FOREIGN KEY (event_id) REFERENCES events(event_id)" // 新增eventFK對映報名的活動
+                + " qualification TEXT NOT NULL DEFAULT 'MEMBER'" // 🚨 新增 qualification 欄位
                 + ");";
         // 🚨 新增：專門儲存認證資訊的資料表
         String sqlCredentials = "CREATE TABLE IF NOT EXISTS credentials ("
