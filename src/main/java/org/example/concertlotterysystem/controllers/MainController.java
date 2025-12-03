@@ -44,6 +44,7 @@ public class MainController implements Initializable {
     }
     @FXML
     public void handleSearch(ActionEvent actionEvent) {
+        loadEvents(searchField.getText());
     }
     @FXML
     public void handleUserMenu(ActionEvent actionEvent) {
@@ -154,7 +155,7 @@ public class MainController implements Initializable {
         return card;
     }
     private void handleEventDetails(Event event) {
-        PageRouterService.changeThePage("event-details-view.fxml", 800, 600);
+        PageRouterService.changeThePage("event-details-view.fxml", 600, 400);
     }
 
 }

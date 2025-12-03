@@ -38,6 +38,7 @@ public class PageRouterService {
             FXMLLoader fxmlLoader = new FXMLLoader(ROUTER_CLASS.getResource(pagePath));
             Scene scene = new Scene(fxmlLoader.load(), width, height);
             primaryStage.setTitle("Concert Lottery System");
+            primaryStage.setResizable(false);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

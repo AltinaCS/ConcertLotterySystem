@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox alignment="TOP_CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.concertlotterysystem.controllers.EventDetailController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
 
-</AnchorPane>
+    <Label fx:id="titleLabel" text="活動名稱" wrapText="true">
+        <font>
+            <Font name="System Bold" size="24.0" />
+        </font>
+    </Label>
+    <Separator />
+
+    <GridPane hgap="10.0" prefWidth="500.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
+        </columnConstraints>
+        <Label text="地點：" GridPane.rowIndex="0" />
+        <Label fx:id="locationLabel" text="地點詳情" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+        <Label text="描述：" GridPane.rowIndex="1" />
+        <Label fx:id="descriptionLabel" text="活動描述" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label text="活動時間：" GridPane.rowIndex="2" />
+        <Label fx:id="eventTimeLabel" text="2025-12-17 19:30" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <Label text="報名起/止：" GridPane.rowIndex="3" />
+        <Label fx:id="regPeriodLabel" text="Start - End" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <Label text="抽籤時間：" GridPane.rowIndex="4" />
+        <Label fx:id="drawTimeLabel" text="2025-12-16 12:00" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+        <Label text="總名額：" GridPane.rowIndex="5" />
+        <Label fx:id="quotaLabel" text="500" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+        <Label text="單人限制：" GridPane.rowIndex="6" />
+        <Label fx:id="limitLabel" text="2" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+        <Label text="目前狀態：" GridPane.rowIndex="7" />
+        <Label fx:id="statusLabel" text="OPEN" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+    </GridPane>
+
+    <HBox alignment="CENTER" spacing="20.0">
+        <Button mnemonicParsing="false" onAction="#handleRegister" text="登記報名" />
+        <Button mnemonicParsing="false" onAction="#handleBack" text="返回主頁" />
+    </HBox>
+</VBox>
