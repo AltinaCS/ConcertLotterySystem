@@ -11,4 +11,41 @@
             fx:controller="org.example.concertlotterysystem.controllers.ConcertDisplayPageController"
             prefHeight="400.0" prefWidth="600.0">
 
+    <children>
+        <VBox spacing="10.0"
+              AnchorPane.topAnchor="10.0"
+              AnchorPane.leftAnchor="10.0"
+              AnchorPane.rightAnchor="10.0"
+              AnchorPane.bottomAnchor="10.0">
+
+            <children>
+                <!-- 頁面標題 -->
+                <Label text="Concert Lottery System"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+                <!-- 功能按鈕列 -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Button fx:id="createActivityButton"
+                                text="Create Activity"
+                                onAction="#onCreateActivityClicked"/>
+
+                        <!-- 之後要做 Search Activity / Run the Lottery 可以在這裡加按鈕 -->
+                        <!--
+                        <Button text="Search Activity"
+                                onAction="#onSearchActivityClicked"/>
+                        <Button text="Run the Lottery"
+                                onAction="#onRunLotteryClicked"/>
+                        -->
+                    </children>
+                </HBox>
+
+                <Separator/>
+
+                <!-- 之後可以改成 TableView / ListView 顯示活動清單 -->
+                <Label fx:id="placeholderLabel"
+                       text="(Event list / search results will be shown here later.)"/>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>
