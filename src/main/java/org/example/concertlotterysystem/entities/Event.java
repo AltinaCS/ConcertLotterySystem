@@ -81,6 +81,11 @@ public class Event {
                 now.isBefore(endTime);
     }
 
+    public void runLottery(){
+        LotteryDrawer drawer = new LotteryDrawer(this);
+        drawer.runLottery();
+    }
+
     // ===== Getter & Setter =====
 
     public String getEventId() {
