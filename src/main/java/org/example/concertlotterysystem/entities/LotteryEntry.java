@@ -25,6 +25,12 @@ public class LotteryEntry {
     public LotteryEntryStatus getStatus(){
         return status;
     }
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
     public void setStatus(LotteryEntryStatus status){
         this.status = status;
     }
