@@ -19,9 +19,9 @@ public class DBInitializer {
                 + " member_id TEXT PRIMARY KEY,"
                 + " name TEXT NOT NULL,"
                 + " email TEXT NOT NULL,"
-                + " qualification TEXT NOT NULL DEFAULT 'MEMBER' " // 🚨 新增 qualification 欄位
+                + " qualification TEXT NOT NULL DEFAULT 'MEMBER' "
                 + ");";
-        // 🚨 新增：專門儲存認證資訊的資料表
+
         String sqlCredentials = "CREATE TABLE IF NOT EXISTS credentials ("
                 + " member_id TEXT PRIMARY KEY," // FK，也是 PK
                 + " hashed_password TEXT NOT NULL,"
@@ -60,7 +60,7 @@ public class DBInitializer {
                 stmt.execute(table);
             }
         } catch (SQLException e) {
-            System.err.println("❌ 資料庫初始化失敗: " + e.getMessage());
+            System.err.println("資料庫初始化失敗: " + e.getMessage());
             e.printStackTrace();
         }
     }
