@@ -11,7 +11,7 @@ import java.util.List;
 
 public class EventDAO {
     private static final String DB_URL = "jdbc:sqlite:lottery.db";
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     public List<Event> searchEventsByKeyword(String keyword) {
         List<Event> resultList = new ArrayList<>();

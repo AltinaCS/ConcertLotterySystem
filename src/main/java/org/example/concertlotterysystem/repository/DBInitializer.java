@@ -19,9 +19,13 @@ public class DBInitializer {
                 + " member_id TEXT PRIMARY KEY,"
                 + " name TEXT NOT NULL,"
                 + " email TEXT NOT NULL,"
+<<<<<<< Updated upstream
                 + " qualification TEXT NOT NULL DEFAULT 'MEMBER',"
                 + " event_id TEXT NOT NULL,"
                 + " FOREIGN KEY (event_id) REFERENCES events(event_id)"
+=======
+                + " qualification TEXT NOT NULL DEFAULT 'MEMBER' " // 🚨 新增 qualification 欄位
+>>>>>>> Stashed changes
                 + ");";
         String sqlCredentials = "CREATE TABLE IF NOT EXISTS credentials ("
                 + " member_id TEXT PRIMARY KEY,"
@@ -33,7 +37,7 @@ public class DBInitializer {
                 + " title TEXT NOT NULL,"
                 + " description TEXT,"
                 + " location TEXT,"
-                + " status TEXT NOT NULL,"
+                + " status TEXT NOT NULL,"  // <-- 確認 status 在這裡
                 + " quota INTEGER NOT NULL,"
                 + " per_member_limit INTEGER,"
                 + " event_time TEXT,"

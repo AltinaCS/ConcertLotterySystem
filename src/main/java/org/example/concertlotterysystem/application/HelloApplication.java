@@ -12,6 +12,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         DBInitializer.createNewTables();
+        test.printAllMembersAndEvents();
         PageRouterService.setPrimaryPage(stage);
         PageRouterService.changeThePage("login.fxml", 600, 400);
     }

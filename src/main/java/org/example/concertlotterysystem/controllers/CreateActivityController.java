@@ -7,6 +7,7 @@ import org.example.concertlotterysystem.entities.Event;
 import org.example.concertlotterysystem.entities.EventStatus;
 import org.example.concertlotterysystem.repository.SqliteEventRepository;
 import org.example.concertlotterysystem.services.EventService;
+import org.example.concertlotterysystem.services.PageRouterService;
 
 public class CreateActivityController {
 
@@ -139,6 +140,7 @@ public class CreateActivityController {
     @FXML
     private void onCancelClicked(ActionEvent eventAction) {
         clearForm();
+        PageRouterService.changeThePage("main-view.fxml",600,400);
     }
 
 // --------- 工具方法區 ---------

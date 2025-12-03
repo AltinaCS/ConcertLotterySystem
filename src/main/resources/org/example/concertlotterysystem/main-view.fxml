@@ -1,51 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.concertlotterysystem.controllers.ConcertDisplayPageController"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.concertlotterysystem.controllers.MainController">
 
-    <children>
-        <VBox spacing="10.0"
-              AnchorPane.topAnchor="10.0"
-              AnchorPane.leftAnchor="10.0"
-              AnchorPane.rightAnchor="10.0"
-              AnchorPane.bottomAnchor="10.0">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-border-color: #ddd; -fx-padding: 15;">
+            <TextField fx:id="searchField" promptText="搜尋活動：" prefWidth="300"/>
+            <Button text="搜尋" onAction="#handleSearch"/>
+            <Region HBox.hgrow="ALWAYS"/>  <HBox alignment="CENTER_RIGHT" spacing="10">
+            <Label fx:id="usernameLabel" text="用戶名稱" style="-fx-font-weight: bold;"/>
+            <Button fx:id="userMenuButton" text="⚙️" onAction="#handleUserMenu" />
+        </HBox>
+        </HBox>
+    </top>
 
-            <children>
-                <!-- 頁面標題 -->
-                <Label text="Concert Lottery System"
-                       style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-
-                <!-- 功能按鈕列 -->
-                <HBox spacing="10.0">
-                    <children>
-                        <Button fx:id="createActivityButton"
-                                text="Create Activity"
-                                onAction="#onCreateActivityClicked"/>
-
-                        <!-- 之後要做 Search Activity / Run the Lottery 可以在這裡加按鈕 -->
-                        <!--
-                        <Button text="Search Activity"
-                                onAction="#onSearchActivityClicked"/>
-                        <Button text="Run the Lottery"
-                                onAction="#onRunLotteryClicked"/>
-                        -->
-                    </children>
-                </HBox>
-
-                <Separator/>
-
-                <!-- 之後可以改成 TableView / ListView 顯示活動清單 -->
-                <Label fx:id="placeholderLabel"
-                       text="(Event list / search results will be shown here later.)"/>
-            </children>
-        </VBox>
-    </children>
-</AnchorPane>
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;">
+            <GridPane fx:id="eventGrid"
+                      hgap="20" vgap="20"
+                      alignment="TOP_LEFT"
+                      style="-fx-padding: 20;">
+            </GridPane>
+        </ScrollPane>
+    </center>
+</BorderPane>

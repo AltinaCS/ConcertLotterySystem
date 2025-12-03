@@ -15,7 +15,7 @@ public class test {
         // 修正 3: SQL 語句清單，使用 List<String>
         List<String> sqls = Arrays.asList(
                 "SELECT m.member_id, m.name, m.email FROM members m JOIN credentials c ON m.member_id = c.member_id", // 查詢成員
-                "SELECT event_id, title, location FROM events" // 查詢活動，🚨 確保欄位名稱存在
+                "SELECT * FROM events" // 查詢活動，🚨 確保欄位名稱存在
         );
 
         System.out.println("--- 🚨 DEBUG: ALL DATA TABLES ---");
@@ -49,10 +49,17 @@ public class test {
                         // 針對 events 表，使用其特有的欄位
                         while (rs.next()) {
                             System.out.printf(
-                                    "| Event ID: %s | Title: %s | Location: %s |\n",
-                                    rs.getString("event_id"), // 🚨 假設 events 表有 event_id
+                                    "| ID: %s | Title: %s | Location: %s | Status: %s | Quota: %d | Limit: %d | EventTime: %s | StartTime: %s | EndTime: %s | DrawTime: %s |\n",
+                                    rs.getString("event_id"),
                                     rs.getString("title"),
-                                    rs.getString("location")
+                                    rs.getString("location"),
+                                    rs.getString("status"),
+                                    rs.getInt("quota"), // 注意：quota 是 INTEGER，使用 %d
+                                    rs.getInt("per_member_limit"), // 注意：per_member_limit 是 INTEGER，使用 %d
+                                    rs.getString("event_time"),
+                                    rs.getString("start_time"),
+                                    rs.getString("end_time"),
+                                    rs.getString("draw_time")
                             );
                         }
                     }
