@@ -9,7 +9,7 @@ import org.example.concertlotterysystem.repository.SqliteEventRepository;
 import org.example.concertlotterysystem.services.EventService;
 import org.example.concertlotterysystem.services.PageRouterService;
 
-public class CreateActivityController {
+public class CreateEventController {
 
     // 基本欄位
     @FXML
@@ -42,9 +42,6 @@ public class CreateActivityController {
     @FXML
     private TextField quotaField;
 
-    @FXML
-    private TextField perMemberLimitField;
-
     // 狀態
     @FXML
     private ComboBox<EventStatus> statusComboBox;
@@ -59,7 +56,7 @@ public class CreateActivityController {
     // Service：負責驗證與呼叫 Repository
     private final EventService eventService;
 
-    public CreateActivityController() {
+    public CreateEventController() {
         // 簡單做法：這裡直接 new Repository + Service
         this.eventService = new EventService(new SqliteEventRepository());
     }
@@ -98,7 +95,6 @@ public class CreateActivityController {
             String drawTimeStr = drawTimeField.getText();        // yyyy-MM-dd HH:mm
 
             String quotaStr = quotaField.getText();
-            String perMemberLimitStr = perMemberLimitField.getText();
 
             EventStatus status = statusComboBox.getValue();
 
@@ -113,7 +109,7 @@ public class CreateActivityController {
                     regEndStr,
                     drawTimeStr,
                     quotaStr,
-                    perMemberLimitStr,
+                    "1",
                     status
             );
 
@@ -156,7 +152,6 @@ public class CreateActivityController {
         endTimeField.clear();
         drawTimeField.clear();
         quotaField.clear();
-        perMemberLimitField.clear();
         statusComboBox.getSelectionModel().clearSelection();
     }
 

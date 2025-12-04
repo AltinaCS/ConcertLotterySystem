@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.concertlotterysystem.controllers.EventDetailController">
+<VBox alignment="TOP_CENTER" spacing="15.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.concertlotterysystem.controllers.EventDetailController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -45,10 +51,21 @@
 
         <Label text="目前狀態：" GridPane.rowIndex="7" />
         <Label fx:id="statusLabel" text="OPEN" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
     </GridPane>
 
     <HBox alignment="CENTER" spacing="20.0">
-        <Button mnemonicParsing="false" onAction="#handleRegister" text="登記報名" />
+        <Button fx:id="registerButton" mnemonicParsing="false" onAction="#handleRegister" text="登記報名" />
         <Button mnemonicParsing="false" onAction="#handleBack" text="返回主頁" />
+      <Button fx:id="lotteryButton" mnemonicParsing="false" onAction="#handleLottery" text="抽籤" />
     </HBox>
 </VBox>

@@ -1,5 +1,6 @@
 package org.example.concertlotterysystem.repository;
 
+import org.example.concertlotterysystem.constants.Constants;
 import org.example.concertlotterysystem.entities.Event;
 import org.example.concertlotterysystem.entities.EventStatus;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventDAO {
-    private static final String DB_URL = "jdbc:sqlite:lottery.db";
+    private static final String DB_URL = Constants.DB_URL;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     public List<Event> searchEventsByKeyword(String keyword) {

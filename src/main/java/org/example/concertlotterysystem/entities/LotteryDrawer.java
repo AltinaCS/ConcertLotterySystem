@@ -1,6 +1,7 @@
 package org.example.concertlotterysystem.entities;
 
 import org.example.concertlotterysystem.repository.LotteryDrawerDAO;
+import org.example.concertlotterysystem.repository.LotteryEntryDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,15 +20,15 @@ public class LotteryDrawer {
     }
 
     public void runLottery(){
-        List<LotteryEntry> winList = new ArrayList();
-        List<LotteryEntry> loseList = new ArrayList();
-
+        List<LotteryEntry> winList = new ArrayList<>();
+        List<LotteryEntry> loseList = new ArrayList<>();
+        LotteryEntryDAO lotteryEntryDAO = new LotteryEntryDAO();
         if(lotteryEntryList.size() <= quota){
             winList = lotteryEntryList;
 
         }else{
             for (int i = 0; i < quota; i++){
-                int winIndex = random.nextInt() % lotteryEntryList.size();
+                int winIndex = random.nextInt(lotteryEntryList.size());
                 winList.add(lotteryEntryList.get(winIndex));
                 lotteryEntryList.remove(winIndex);
             }
@@ -41,6 +42,12 @@ public class LotteryDrawer {
         for (LotteryEntry entry : loseList){
             entry.setStatus(LotteryEntryStatus.LOST);
         }
+        List<LotteryEntry> allUpdates = new ArrayList<>();
+        allUpdates.addAll(winList);
+        allUpdates.addAll(loseList);
 
+        if (!allUpdates.isEmpty()) {
+            lotteryEntryDAO.updateStatusBatch(allUpdates);
+        }
     }
 }

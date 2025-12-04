@@ -2,6 +2,7 @@ package org.example.concertlotterysystem.controllers;
 import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.stage.Stage;
 import org.example.concertlotterysystem.services.*;
 import org.example.concertlotterysystem.entities.Event; // 修正引入名稱
 import org.example.concertlotterysystem.entities.Member;
@@ -107,7 +108,7 @@ public class MainController implements Initializable {
         }
     }
     private void handleLogout() {
-        // 清除 Session 狀態
+
         SessionManager.getInstance().logout();
         PageRouterService.changeThePage("login.fxml", 600, 400);
     }
@@ -155,7 +156,11 @@ public class MainController implements Initializable {
         return card;
     }
     private void handleEventDetails(Event event) {
-        PageRouterService.changeThePage("event-details-view.fxml", 600, 400);
+        EventDetailController controller = PageRouterService.changeThePageWithController("event-details-view.fxml", 600, 400);
+        if(event!=null){
+            assert controller != null;
+            controller.initializeData(event);
+        }
     }
 
 }

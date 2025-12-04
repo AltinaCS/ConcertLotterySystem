@@ -96,7 +96,8 @@ public class EventService {
         if (perMemberLimit > quota) {
             throw new IllegalArgumentException("Per-member limit cannot exceed total quota.");
         }
-
+        description = (description != null && !description.isBlank()) ? description.trim() : null;
+        location = (location != null && !location.isBlank()) ? location.trim() : null;
 // ===== 3. 時間字串轉 LocalDateTime =====
         LocalDateTime regStart = parseDateTime(regStartStr);
         LocalDateTime regEnd = parseDateTime(regEndStr);

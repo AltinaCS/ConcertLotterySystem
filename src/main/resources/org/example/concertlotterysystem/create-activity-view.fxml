@@ -1,106 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<GridPane xmlns="http://javafx.com/javafx/21"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="org.example.concertlotterysystem.controllers.CreateActivityController"
-          hgap="10" vgap="10">
+<GridPane hgap="10" vgap="10" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.concertlotterysystem.controllers.CreateEventController">
 
     <!-- 標題 -->
-    <Label text="Create Activity"
-           style="-fx-font-size: 18px; -fx-font-weight: bold;"
-           GridPane.columnSpan="2"
-           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Create Activity" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
 
     <!-- Title -->
-    <Label text="Title:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-    <TextField fx:id="titleField"
-               promptText="e.g. Concert Name"
-               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <Label text="Title:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <TextField fx:id="titleField" promptText="e.g. Concert Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
     <!-- Location -->
-    <Label text="Location:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-    <TextField fx:id="locationField"
-               promptText="e.g. Taipei Arena"
-               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <TextField fx:id="locationField" promptText="e.g. Taipei Arena" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
     <!-- Description -->
-    <Label text="Description:" GridPane.rowIndex="3" GridPane.columnIndex="0"
-           alignment="TOP_LEFT"/>
-    <TextArea fx:id="descriptionArea"
-              promptText="Short description of the event"
-              prefRowCount="3"
-              GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    <Label alignment="TOP_LEFT" text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <TextArea fx:id="descriptionArea" prefRowCount="3" promptText="Short description of the event" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
     <!-- Event date / time -->
-    <Label text="Event Date:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-    <DatePicker fx:id="eventDatePicker"
-                GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    <Label text="Event Date:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <DatePicker fx:id="eventDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-    <Label text="Event Time (HH:mm):"
-           GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-    <TextField fx:id="eventTimeField"
-               promptText="e.g. 19:30"
-               GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+    <Label text="Event Time (HH:mm):" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+    <TextField fx:id="eventTimeField" promptText="e.g. 19:30" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
     <!-- Registration window -->
-    <Label text="Registration Start (yyyy-MM-dd HH:mm):"
-           wrapText="true"
-           GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-    <TextField fx:id="startTimeField"
-               promptText="e.g. 2025-12-10 10:00"
-               GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+    <Label text="Registration Start (yyyy-MM-dd HH:mm):" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+    <TextField fx:id="startTimeField" promptText="e.g. 2025-12-10 10:00" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-    <Label text="Registration End (yyyy-MM-dd HH:mm):"
-           wrapText="true"
-           GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-    <TextField fx:id="endTimeField"
-               promptText="e.g. 2025-12-15 23:59"
-               GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+    <Label text="Registration End (yyyy-MM-dd HH:mm):" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+    <TextField fx:id="endTimeField" promptText="e.g. 2025-12-15 23:59" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
     <!-- Draw time -->
-    <Label text="Draw Time (yyyy-MM-dd HH:mm):"
-           wrapText="true"
-           GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-    <TextField fx:id="drawTimeField"
-               promptText="e.g. 2025-12-16 12:00"
-               GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+    <Label text="Draw Time (yyyy-MM-dd HH:mm):" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+    <TextField fx:id="drawTimeField" promptText="e.g. 2025-12-16 12:00" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
     <!-- Quota & per-member limit -->
-    <Label text="Total Quota:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
-    <TextField fx:id="quotaField"
-               promptText="e.g. 500"
-               GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+    <Label text="Total Quota:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+    <TextField fx:id="quotaField" promptText="e.g. 500" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 
-    <Label text="Per-member Limit:"
-           GridPane.rowIndex="10" GridPane.columnIndex="0"/>
-    <TextField fx:id="perMemberLimitField"
-               promptText="e.g. 2"
-               GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+    <Label text="Per-member Limit:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
 
     <!-- Status -->
-    <Label text="Status:" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
-    <ComboBox fx:id="statusComboBox"
-              prefWidth="200"
-              GridPane.rowIndex="11" GridPane.columnIndex="1"/>
+    <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+    <ComboBox fx:id="statusComboBox" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="11" />
 
     <!-- Buttons -->
-    <HBox spacing="10"
-          alignment="CENTER_RIGHT"
-          GridPane.rowIndex="12" GridPane.columnIndex="0" GridPane.columnSpan="2">
+    <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="12">
         <children>
-            <Button fx:id="createButton"
-                    text="Create"
-                    onAction="#onCreateClicked"/>
-            <Button fx:id="cancelButton"
-                    text="Cancel"
-                    onAction="#onCancelClicked"/>
+            <Button fx:id="createButton" onAction="#onCreateClicked" text="Create" />
+            <Button fx:id="cancelButton" onAction="#onCancelClicked" text="Cancel" />
         </children>
         <padding>
-            <Insets top="10.0"/>
+            <Insets top="10.0" />
         </padding>
     </HBox>
+   <Label text="1" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 </GridPane>
