@@ -48,7 +48,25 @@ public class EventDAO {
         }
         return resultList;
     }
+    public void updateStatus(Event event, EventStatus newStatus) {
+        // SQL：根據 event_id 更新 status 欄位
+        String sql = "UPDATE events SET status = ? WHERE event_id = ?";
 
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, newStatus.name()); // 將 Enum 轉換為字串 (例如 'DRAWN')
+            stmt.setString(2, event.getEventId());
+
+            stmt.executeUpdate();
+
+            // 成功更新資料庫後，同步更新記憶體中的 Event 物件
+            event.setStatus(newStatus);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update event status to " + newStatus.name() + ": " + e.getMessage(), e);
+        }
+    }
     public Event getEventById(String eventId){
         Event event = null;
         String sql = "SELECT * FROM events WHERE event_id = ?";

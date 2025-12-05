@@ -4,10 +4,13 @@ import org.example.concertlotterysystem.entities.Event;
 import org.example.concertlotterysystem.entities.EventStatus;
 import org.example.concertlotterysystem.repository.EventRepository;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
 
@@ -55,8 +58,7 @@ public class EventService {
             String regEndStr, // yyyy-MM-dd HH:mm
             String drawTimeStr, // yyyy-MM-dd HH:mm
             String quotaStr,
-            String perMemberLimitStr,
-            EventStatus status
+            String perMemberLimitStr
     ) throws Exception {
 
 // ===== 1. 必填欄位檢查 =====
@@ -118,10 +120,43 @@ public class EventService {
             LocalTime time = LocalTime.parse(eventTimeStr.trim(), timeFormatter);
             eventTime = LocalDateTime.of(date, time);
         }
+        if (eventTime != null) {
+            if (!eventTime.isAfter(LocalDateTime.now()) || !regEnd.isAfter(LocalDateTime.now()) || !regStart.isAfter(LocalDateTime.now())){
+                throw new IllegalArgumentException("你無法回到過去");
+            }
+            // 檢查 eventTime 是否晚於 regStart
+            if (!eventTime.isAfter(regStart)) {
+                throw new IllegalArgumentException("Event time must be after registration start time.");
+            }
 
-// 若沒選狀態，給預設值（依你們 business rule 調整）
-        if (status == null) {
-            status = EventStatus.OPEN; // 或 EventStatus.DRAFT
+            // 檢查 eventTime 是否晚於 regEnd
+            if (!eventTime.isAfter(regEnd)) {
+                throw new IllegalArgumentException("Event time must be after registration end time.");
+            }
+
+            // 檢查 eventTime 是否晚於 drawTime (這是最重要的檢查)
+            if (!eventTime.isAfter(drawTime)) {
+                throw new IllegalArgumentException("Event time must be strictly after the draw time.");
+            }
+        }
+
+// TODO:這塊要做修改 改成利用時間去判斷狀態而自行設定
+        EventStatus status;
+        LocalDateTime now = LocalDateTime.now(); // 獲取當前時間
+
+        if (now.isBefore(regStart)) {
+            // 報名開始時間尚未到
+            status = EventStatus.DRAFT;
+
+        } else if (now.isAfter(regEnd)) {
+            // 報名已經截止 (活動已經過期或即將進行抽籤)
+            // 由於這是創建新活動，如果當前時間已經過了截止時間，通常設定為 CLOSED 或 PENDING_DRAW
+            // 這裡選擇 CLOSED 除非您有另一個 PENDING_DRAW 狀態
+            status = EventStatus.CLOSED;
+
+        } else {
+            // 當前時間在 regStart 和 regEnd 之間
+            status = EventStatus.OPEN;
         }
 
 // ===== 4. 產生 eventId（暫時用時間戳，可改用 UUID） =====
@@ -148,7 +183,70 @@ public class EventService {
 
         return event;
     }
+    public void syncEventStatuses() {
 
+        List<Event> allEvents;
+
+        try {
+            // 🚨 修正：呼叫 repository 的 findAll()，並處理 SQLException
+            allEvents = eventRepository.findAll();
+        } catch (SQLException e) {
+            // 將底層的 SQLException 封裝為 RuntimeException，以便上層 Controller 捕捉和處理
+            throw new RuntimeException("Failed to load events for status synchronization.", e);
+        }
+
+        // 如果沒有活動，則直接返回
+        if (allEvents.isEmpty()) {
+            return;
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        List<Event> eventsToUpdate = new ArrayList<>();
+
+        for (Event event : allEvents) {
+            // 只有非 DRAWN 的活動才需要時間同步
+            if (event.getStatus() == EventStatus.DRAWN) {
+                continue;
+            }
+
+            // 避免 NullPointerException
+            if (event.getStartTime() == null || event.getEndTime() == null || event.getDrawTime() == null) {
+                continue;
+            }
+
+            EventStatus currentStatus = event.getStatus();
+            EventStatus newStatus = determineStatusByTime(now, event);
+
+            // 如果計算出來的新狀態與當前狀態不同，則需要更新
+            if (currentStatus != newStatus) {
+                event.setStatus(newStatus); // 更新記憶體物件
+                eventsToUpdate.add(event);  // 加入待更新列表
+            }
+        }
+
+        // 批量更新資料庫 (假設 updateStatuses 不拋出 SQLException，而是拋出 RuntimeException)
+        if (!eventsToUpdate.isEmpty()) {
+            // 🚨 假設 eventRepository.updateStatuses() 已經實作並處理了 DB 錯誤
+            eventRepository.updateStatuses(eventsToUpdate);
+        }
+    }
+    private EventStatus determineStatusByTime(LocalDateTime now, Event event) {
+
+        // 檢查順序：UPCOMING -> OPEN -> CLOSED
+        if (now.isBefore(event.getStartTime())) {
+            return EventStatus.DRAFT;
+
+        } else if (now.isBefore(event.getEndTime())) {
+            return EventStatus.OPEN;
+
+        } else if (now.isBefore(event.getDrawTime())) {
+            return EventStatus.CLOSED;
+
+        } else {
+            // 報名截止時間和抽籤時間都已過，但尚未 DRAWN，系統維持 CLOSED
+            return EventStatus.CLOSED;
+        }
+    }
     // 將 "yyyy-MM-dd HH:mm" 轉成 LocalDateTime
     private LocalDateTime parseDateTime(String value) {
         return LocalDateTime.parse(value.trim(), dateTimeFormatter);

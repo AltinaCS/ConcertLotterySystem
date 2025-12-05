@@ -106,7 +106,34 @@ public class SqliteEventRepository implements EventRepository {
         }
         return result;
     }
+    @Override
+    public void updateStatuses(List<Event> events) {
+        String sql = "UPDATE events SET status = ? WHERE event_id = ?";
 
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            conn.setAutoCommit(false); // 開始事務
+
+            for (Event event : events) {
+                stmt.setString(1, event.getStatus().name());
+                stmt.setString(2, event.getEventId());
+                stmt.addBatch();
+            }
+
+            stmt.executeBatch();
+            conn.commit(); // 提交事務
+
+        } catch (SQLException e) {
+            try {
+                Connection conn = DriverManager.getConnection(DB_URL);
+                conn.rollback();
+            } catch (SQLException rollbackE) {
+                // 忽略回滾失敗
+            }
+            throw new RuntimeException("Failed to update event statuses in batch: " + e.getMessage(), e);
+        }
+    }
     // ====== Helper methods ======
 
     private void setDateTime(PreparedStatement ps, int index, LocalDateTime value) throws SQLException {

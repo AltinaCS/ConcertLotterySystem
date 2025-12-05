@@ -30,4 +30,5 @@ public interface EventRepository {
      * Find events that are currently open for registration at the given time.
      */
     List<Event> findOpenEvents(LocalDateTime now) throws SQLException;
+    public void updateStatuses(List<Event> events);
 }

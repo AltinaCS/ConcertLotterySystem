@@ -3,6 +3,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
+import org.example.concertlotterysystem.repository.SqliteEventRepository;
 import org.example.concertlotterysystem.services.*;
 import org.example.concertlotterysystem.entities.Event; // 修正引入名稱
 import org.example.concertlotterysystem.entities.Member;
@@ -36,10 +37,13 @@ public class MainController implements Initializable {
     private GridPane eventGrid;
 
     private QueryEvent queryEvent;
+
     private static final int COLUMNS = 3;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.queryEvent = new QueryEvent();
+        EventService eventService = new EventService(new SqliteEventRepository());
+        eventService.syncEventStatuses();
         initializeUserState();
         loadEvents(null);
     }

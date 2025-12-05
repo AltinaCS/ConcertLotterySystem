@@ -42,10 +42,6 @@ public class CreateEventController {
     @FXML
     private TextField quotaField;
 
-    // 狀態
-    @FXML
-    private ComboBox<EventStatus> statusComboBox;
-
     // 按鈕
     @FXML
     private Button createButton;
@@ -64,13 +60,7 @@ public class CreateEventController {
     // 初始化：把 EventStatus 塞進下拉選單
     @FXML
     public void initialize() {
-        statusComboBox.getItems().setAll(EventStatus.values());
-        // 預設選一個狀態（若沒有 DRAFT 就會選第一個 enum）
-        if (statusComboBox.getItems().contains(EventStatus.DRAFT)) {
-            statusComboBox.getSelectionModel().select(EventStatus.DRAFT);
-        } else {
-            statusComboBox.getSelectionModel().selectFirst();
-        }
+
     }
 
     /**
@@ -96,7 +86,7 @@ public class CreateEventController {
 
             String quotaStr = quotaField.getText();
 
-            EventStatus status = statusComboBox.getValue();
+
 
             // 呼叫 Service 做驗證＋轉型＋寫入 DB
             Event created = eventService.createEvent(
@@ -109,8 +99,7 @@ public class CreateEventController {
                     regEndStr,
                     drawTimeStr,
                     quotaStr,
-                    "1",
-                    status
+                    "1"
             );
 
             showInfo("Event created",
@@ -152,7 +141,7 @@ public class CreateEventController {
         endTimeField.clear();
         drawTimeField.clear();
         quotaField.clear();
-        statusComboBox.getSelectionModel().clearSelection();
+
     }
 
     private void showError(String title, String message) {

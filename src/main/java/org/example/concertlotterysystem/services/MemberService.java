@@ -23,7 +23,7 @@ public class MemberService {
 
 
         if (memberDAO.findByEmail(email) != null) {
-            System.out.println("⚠註冊失敗：Email 已被註冊。");
+            System.out.println("註冊失敗：Email 已被註冊。");
             return null;
         }
 

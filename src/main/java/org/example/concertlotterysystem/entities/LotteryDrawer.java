@@ -49,5 +49,6 @@ public class LotteryDrawer {
         if (!allUpdates.isEmpty()) {
             lotteryEntryDAO.updateStatusBatch(allUpdates);
         }
+
     }
 }

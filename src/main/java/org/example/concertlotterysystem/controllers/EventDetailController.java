@@ -9,7 +9,10 @@ import org.example.concertlotterysystem.entities.Event;
 import org.example.concertlotterysystem.entities.EventStatus;
 import org.example.concertlotterysystem.entities.Member;
 import org.example.concertlotterysystem.entities.MemberQualificationStatus;
+import org.example.concertlotterysystem.repository.EventDAO;
+import org.example.concertlotterysystem.repository.SqliteEventRepository;
 import org.example.concertlotterysystem.services.EventRegistration;
+import org.example.concertlotterysystem.services.EventService;
 import org.example.concertlotterysystem.services.PageRouterService;
 import org.example.concertlotterysystem.entities.LotteryDrawer;
 
@@ -35,11 +38,13 @@ public class EventDetailController implements Initializable {
     @FXML private Label statusLabel;
     @FXML private Button registerButton;
     @FXML private Button lotteryButton;
-
+    private EventService eventService;
     private final ObjectProperty<Event> currentEvent = new SimpleObjectProperty<>();
     private static final DateTimeFormatter DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initializeEventService();
+        eventService.syncEventStatuses();
         currentEvent.addListener((obs, oldEvent, newEvent) -> {
             if (newEvent != null) {
                 updateUIWithEventData(newEvent);
@@ -49,9 +54,19 @@ public class EventDetailController implements Initializable {
 
     }
 
+    private void initializeEventService() {
+        this.eventService= new EventService(new SqliteEventRepository());
+    }
+
     private void handleButtonStatus(Event newEvent) {
         registerButton.setDisable(!newEvent.getStatus().equals(EventStatus.OPEN));
         lotteryButton.setVisible(SessionManager.getInstance().getCurrentMember().getQualification().equals(MemberQualificationStatus.ADMIN));
+        if (newEvent.getStatus().equals(EventStatus.OPEN) || newEvent.getStatus().equals(EventStatus.CLOSED)){
+            lotteryButton.setDisable(false);
+        }
+        else{
+            lotteryButton.setDisable(true);
+        }
         //TODO:新增一個判定確認使用者已擁有Entry
     }
 
@@ -113,6 +128,7 @@ public class EventDetailController implements Initializable {
         }
 
         alert.showAndWait();
+        updateUIWithEventData(currentEvent.get());
     }
     @FXML
     private void handleLottery(){
@@ -123,8 +139,12 @@ public class EventDetailController implements Initializable {
             showAlert(Alert.AlertType.WARNING, "操作錯誤", "無法識別當前活動。");
             return;
         }
+        if (current.getStatus().equals(EventStatus.DRAWN) || current.getStatus().equals(EventStatus.CANCELLED)) {
+            // 這不應該發生在 Event Detail 頁面，但仍需檢查
+            showAlert(Alert.AlertType.WARNING, "操作錯誤", "該活動已被抽過。");
+            return;
+        }
 
-        // 2. 檢查使用者權限 (只有管理員可以執行抽籤)
         Member member = SessionManager.getInstance().getCurrentMember();
         if (member == null || !"ADMIN".equals(member.getQualification().toString())) {
             showAlert(Alert.AlertType.ERROR, "權限不足", "只有管理員才能對此活動執行抽籤操作。");
@@ -142,7 +162,8 @@ public class EventDetailController implements Initializable {
 
             // 執行抽籤，結果會被寫入資料庫 (依賴 LotteryDrawer.runLottery() 的 DB 寫入邏輯)
             drawer.runLottery();
-
+            EventDAO eventDAO = new EventDAO();
+            eventDAO.updateStatus(current, EventStatus.DRAWN); // 假設 EventStatus.DRAWN 已定義
             // 成功訊息
             alert.setAlertType(Alert.AlertType.INFORMATION);
             alert.setContentText("✅ 抽籤已完成。結果已儲存。");
@@ -157,7 +178,9 @@ public class EventDetailController implements Initializable {
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setContentText("❌ 抽籤失敗：發生未知錯誤。\n原因：" + e.getMessage());
         }
-
+        eventService.syncEventStatuses();
+        updateUIWithEventData(currentEvent.get());
+        handleButtonStatus(currentEvent.get());
         alert.showAndWait();
     }
     @FXML
