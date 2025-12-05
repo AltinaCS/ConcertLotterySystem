@@ -17,16 +17,19 @@ public class LotteryEntryDAO {
         LocalDateTime now = LocalDateTime.now();
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+            if (!conn.getAutoCommit()) {
+                conn.setAutoCommit(true);
+            }
             stmt.setString(1, entry.getEntryId());
             stmt.setString(2, entry.getEventId());
             stmt.setString(3, entry.getMemberId());
-            stmt.setString(4, "PENDING");
-            stmt.setString(5, LocalDateTime.now().toString());
+            stmt.setString(4, entry.getStatus().toString());
+            stmt.setString(5, now.toString());
 
             stmt.executeUpdate();
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Failed to save lottery entry", e);
         }
     }

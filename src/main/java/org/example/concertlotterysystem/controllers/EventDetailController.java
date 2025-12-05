@@ -106,8 +106,10 @@ public class EventDetailController implements Initializable {
 
         } catch (Exception e) {
             // 失敗訊息 (由 EventRegistration 拋出)
+
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setContentText("登記失敗：" + e.getMessage());
+            e.printStackTrace();
         }
 
         alert.showAndWait();
@@ -124,7 +126,7 @@ public class EventDetailController implements Initializable {
 
         // 2. 檢查使用者權限 (只有管理員可以執行抽籤)
         Member member = SessionManager.getInstance().getCurrentMember();
-        if (member == null || !"ADMIN".equals(member.getQualification())) {
+        if (member == null || !"ADMIN".equals(member.getQualification().toString())) {
             showAlert(Alert.AlertType.ERROR, "權限不足", "只有管理員才能對此活動執行抽籤操作。");
             return;
         }

@@ -2,6 +2,7 @@ package org.example.concertlotterysystem.services;
 
 import org.example.concertlotterysystem.entities.Event;
 import org.example.concertlotterysystem.entities.LotteryEntry;
+import org.example.concertlotterysystem.entities.LotteryEntryStatus;
 import org.example.concertlotterysystem.repository.EventDAO;
 import org.example.concertlotterysystem.repository.LotteryEntryDAO;
 import java.util.UUID;
@@ -13,13 +14,12 @@ public class EventRegistration {
         Event event = eventDAO.getEventById(eventId);
 
         if (event == null) {
-            System.out.println("找不到該活動。");
-            return;
+            throw new Exception("This event is not found");
+
         }
 
         if (!event.isRegistrationOpen()){
-            System.out.println("這個活動尚未開放報名。");
-            return;
+            throw new Exception("This event is not opened for registration");
         }
 
         LotteryEntryDAO lotteryEntryDAO = new LotteryEntryDAO();
@@ -29,7 +29,7 @@ public class EventRegistration {
         }
         // 先使用UUID幫Entry生成ID
         String newEntryId = UUID.randomUUID().toString();
-        LotteryEntry lotteryEntry = new LotteryEntry(newEntryId, eventId, memberId);
+        LotteryEntry lotteryEntry = new LotteryEntry(newEntryId, eventId, memberId, LotteryEntryStatus.PENDING);
         lotteryEntryDAO.save(lotteryEntry);
     }
 }
