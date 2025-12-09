@@ -104,7 +104,6 @@ public class CreateEventController {
 
             showInfo("Event created",
                     "Event \"" + created.getTitle() + "\" has been saved to database.");
-
             // 建立成功後清空表單
             clearForm();
 

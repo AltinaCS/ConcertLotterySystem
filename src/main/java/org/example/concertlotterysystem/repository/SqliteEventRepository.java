@@ -29,9 +29,9 @@ public class SqliteEventRepository implements EventRepository {
 
             ps.setString(1, event.getEventId());
             ps.setString(2, event.getTitle());
-            ps.setString(3, event.getDescription());          // 允許為 null
-            ps.setString(4, event.getLocation());             // 允許為 null
-            ps.setString(5, event.getStatus().name());        // enum 存 name()
+            ps.setString(3, event.getDescription());
+            ps.setString(4, event.getLocation());
+            ps.setString(5, event.getStatus().name());
             ps.setInt(6, event.getQuota());
             ps.setInt(7, event.getPerMemberLimit());
 

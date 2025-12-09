@@ -100,6 +100,7 @@ public class EventService {
         }
         description = (description != null && !description.isBlank()) ? description.trim() : null;
         location = (location != null && !location.isBlank()) ? location.trim() : null;
+        System.out.println(description);
 // ===== 3. 時間字串轉 LocalDateTime =====
         LocalDateTime regStart = parseDateTime(regStartStr);
         LocalDateTime regEnd = parseDateTime(regEndStr);
