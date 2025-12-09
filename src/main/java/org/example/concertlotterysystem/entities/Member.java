@@ -8,14 +8,13 @@ public class Member {
     private String name;
     private String email;
     private List<Event> eventlist;
-    private List<Ticket> ticketList;
     private MemberQualificationStatus qualification;
+
     public Member(String memberId, String name, String email) {
         this.memberId = memberId;
         this.name = name;
         this.email = email;
         this.eventlist = new ArrayList<>();
-        this.ticketList= new ArrayList<>();
         if(name.equals("admin")){
             this.qualification = MemberQualificationStatus.ADMIN;
         }
@@ -34,6 +33,5 @@ public class Member {
         return email;
     }
     public List<Event> getEvents(){return eventlist;}
-    public List<Ticket> getTickets(){return ticketList;}
     public MemberQualificationStatus getQualification(){return qualification;}
 }
