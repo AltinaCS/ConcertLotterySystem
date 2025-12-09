@@ -3,7 +3,8 @@ plugins {
     application
     id("org.javamodularity.moduleplugin") version "1.8.15"
     id("org.openjfx.javafxplugin") version "0.0.13"
-    id("org.beryx.jlink") version "2.25.0"
+    // id("org.beryx.jlink") version "2.25.0"
+    id("org.beryx.jlink") version "3.1.3"
 }
 
 group = "org.example"
@@ -16,6 +17,8 @@ repositories {
 val junitVersion = "5.12.1"
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
