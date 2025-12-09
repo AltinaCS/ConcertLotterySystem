@@ -27,6 +27,7 @@ public class DBInitializer {
                 + " hashed_password TEXT NOT NULL,"
                 + " FOREIGN KEY (member_id) REFERENCES members(member_id)"
                 + ");";
+
         String sqlEvents = "CREATE TABLE IF NOT EXISTS events ("
                 + " event_id TEXT PRIMARY KEY,"
                 + " title TEXT NOT NULL,"

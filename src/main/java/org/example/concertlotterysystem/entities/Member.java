@@ -9,6 +9,7 @@ public class Member {
     private String email;
     private List<Event> eventlist;
     private MemberQualificationStatus qualification;
+
     public Member(String memberId, String name, String email) {
         this.memberId = memberId;
         this.name = name;
