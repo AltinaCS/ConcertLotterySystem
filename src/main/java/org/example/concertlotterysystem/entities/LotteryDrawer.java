@@ -15,7 +15,7 @@ public class LotteryDrawer {
     private static final Random random = new Random();
 
     public LotteryDrawer(Event event){
-        lotteryEntryList = lotteryDrawerDAO.getLotteryEntry(event);
+        lotteryEntryList = lotteryDrawerDAO.getLotteryEntries(event);
         this.quota = event.getQuota();
     }
 

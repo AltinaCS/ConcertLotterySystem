@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import org.example.concertlotterysystem.Exceptions.CancelEventLotteryException;
 import org.example.concertlotterysystem.entities.Event;
 import org.example.concertlotterysystem.entities.EventStatus;
 import org.example.concertlotterysystem.entities.Member;
@@ -23,6 +25,7 @@ import org.example.concertlotterysystem.services.SessionManager;
 
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EventDetailController implements Initializable {
@@ -61,13 +64,7 @@ public class EventDetailController implements Initializable {
     private void handleButtonStatus(Event newEvent) {
         registerButton.setDisable(!newEvent.getStatus().equals(EventStatus.OPEN));
         lotteryButton.setVisible(SessionManager.getInstance().getCurrentMember().getQualification().equals(MemberQualificationStatus.ADMIN));
-        if (newEvent.getStatus().equals(EventStatus.OPEN) || newEvent.getStatus().equals(EventStatus.CLOSED)){
-            lotteryButton.setDisable(false);
-        }
-        else{
-            lotteryButton.setDisable(true);
-        }
-        //TODO:新增一個判定確認使用者已擁有Entry
+        lotteryButton.setDisable(!newEvent.getStatus().equals(EventStatus.OPEN) && !newEvent.getStatus().equals(EventStatus.CLOSED));
     }
 
     private void updateUIWithEventData(Event event) {
@@ -118,16 +115,44 @@ public class EventDetailController implements Initializable {
             // 成功訊息
             alert.setAlertType(Alert.AlertType.INFORMATION);
             alert.setContentText("您已成功登記 [" + current.getTitle() + "]。");
+            alert.showAndWait();
+        }
+        catch (CancelEventLotteryException e) {
+            // 🎯 捕獲特定的例外：用戶已登記，詢問是否取消
 
-        } catch (Exception e) {
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("取消登記確認");
+            confirmationAlert.setHeaderText("您已登記過此活動");
+            confirmationAlert.setContentText("請問您是要取消這次活動的登記嗎？");
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // 用戶選擇「是」，執行取消操作
+                try {
+                    // 假設您在 EventRegistration 中新增了一個取消方法
+                    EventRegistration.cancelRegistration(memberId, current.getEventId());
+                    alert.setAlertType(Alert.AlertType.INFORMATION);
+                    alert.setContentText("已成功取消 [" + current.getTitle() + "] 的登記。");
+                } catch (Exception cancelEx) {
+                    alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setContentText("取消登記失敗：" + cancelEx.getMessage());
+                }
+            } else {
+                // 用戶選擇「否」或關閉，顯示保留訊息
+                alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setContentText("您選擇保留現有的登記狀態。");
+            }
+            alert.showAndWait(); // 顯示最終結果
+
+        }
+        catch (Exception e) {
             // 失敗訊息 (由 EventRegistration 拋出)
-
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setContentText("登記失敗：" + e.getMessage());
+            alert.showAndWait();
             e.printStackTrace();
         }
-
-        alert.showAndWait();
         updateUIWithEventData(currentEvent.get());
     }
     @FXML

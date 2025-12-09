@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.concertlotterysystem.entities.LotteryEntryStatus.CANCELLED;
+
 public class LotteryEntryDAO {
 
     private static final String DB_URL = "jdbc:sqlite:lottery.db";
@@ -35,7 +37,7 @@ public class LotteryEntryDAO {
     }
     public LotteryEntry findByMemberAndEvent(String memberId, String eventId) {
         // 查詢 SQL：WHERE 條件需要同時滿足 member_id 和 event_id
-        String sql = "SELECT entry_id, member_id, event_id, result FROM lottery_entries WHERE member_id = ? AND event_id = ?";
+        String sql = "SELECT entry_id, member_id, event_id, result FROM lottery_entries WHERE member_id = ? AND event_id = ? AND result = 'PENDING'";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -129,6 +131,40 @@ public class LotteryEntryDAO {
                 // 忽略回滾失敗
             }
             throw new RuntimeException("Failed to update lottery results in batch: " + e.getMessage(), e);
+        }
+    }
+    public void updateStatusByMemberAndEvent(String memberId, String eventId, LotteryEntryStatus result) throws SQLException {
+        String sql = "UPDATE lottery_entries SET result = ? WHERE member_id = ? AND event_id = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // 2. 設置參數
+
+            // 參數 1: result 欄位的值 (使用 Enum 的名稱字串)
+            pstmt.setString(1, result.name());
+
+            // 參數 2: WHERE 條件 - member_id
+            pstmt.setString(2, memberId);
+
+            // 參數 3: WHERE 條件 - event_id
+            pstmt.setString(3, eventId);
+
+            // 3. 執行更新
+            int rowsAffected = pstmt.executeUpdate();
+
+            // 💡 (可選) 檢查是否有紀錄被更新
+            if (rowsAffected == 0) {
+                // Log 警告或拋出例外，如果預期應該有紀錄被找到
+                System.out.println("警告：找不到 Member ID: " + memberId + " 和 Event ID: " + eventId + " 的紀錄來更新狀態。");
+            } else {
+                System.out.println("成功更新 " + rowsAffected + " 筆紀錄的狀態為: " + result.name());
+            }
+
+        } catch (SQLException e) {
+            // 處理資料庫連線或操作錯誤
+            e.printStackTrace();
+            throw e; // 重新拋出例外，讓上層(Service/Controller)知道操作失敗
         }
     }
 }

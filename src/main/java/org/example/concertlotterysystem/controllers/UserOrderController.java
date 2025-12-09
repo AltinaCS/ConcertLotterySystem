@@ -157,6 +157,7 @@ public class UserOrderController implements Initializable {
             case WON: return "✅ 已中籤";
             case LOST: return "❌ 未中籤";
             case PENDING: return "⏳ 待抽籤";
+            case CANCELLED: return "\uD83D\uDDD1 已取消";
             default: return "未知狀態";
         }
     }

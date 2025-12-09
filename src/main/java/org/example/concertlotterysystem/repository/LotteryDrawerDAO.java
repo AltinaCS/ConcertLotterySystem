@@ -10,11 +10,11 @@ import java.util.List;
 public class LotteryDrawerDAO {
     private static final String DB_URL = "jdbc:sqlite:lottery.db";
 
-    public List<LotteryEntry> getLotteryEntry(Event event){
+    public List<LotteryEntry> getLotteryEntries(Event event){
         List<LotteryEntry> list = new ArrayList<>();
 
         String sql = "SELECT entry_id, event_id, member_id, result " +
-                "FROM lottery_entries WHERE event_id = ?";
+                "FROM lottery_entries WHERE event_id = ? AND result = 'PENDING'";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
