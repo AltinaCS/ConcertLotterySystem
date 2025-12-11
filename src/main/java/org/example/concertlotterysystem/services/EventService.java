@@ -141,7 +141,7 @@ public class EventService {
             }
         }
 
-// TODO:這塊要做修改 改成利用時間去判斷狀態而自行設定
+
         EventStatus status;
         LocalDateTime now = LocalDateTime.now(); // 獲取當前時間
 

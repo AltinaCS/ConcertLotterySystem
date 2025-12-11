@@ -7,14 +7,13 @@ public class Member {
     private String memberId;
     private String name;
     private String email;
-    private List<Event> eventlist;
     private MemberQualificationStatus qualification;
 
     public Member(String memberId, String name, String email) {
         this.memberId = memberId;
         this.name = name;
         this.email = email;
-        this.eventlist = new ArrayList<>();
+
         if(name.equals("admin")){
             this.qualification = MemberQualificationStatus.ADMIN;
         }
@@ -32,6 +31,5 @@ public class Member {
     public String getEmail(){
         return email;
     }
-    public List<Event> getEvents(){return eventlist;}
     public MemberQualificationStatus getQualification(){return qualification;}
 }
