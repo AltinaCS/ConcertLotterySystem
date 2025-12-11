@@ -13,7 +13,7 @@ import org.example.concertlotterysystem.entities.Member;
 import org.example.concertlotterysystem.entities.MemberQualificationStatus;
 import org.example.concertlotterysystem.repository.EventDAO;
 import org.example.concertlotterysystem.repository.SqliteEventRepository;
-import org.example.concertlotterysystem.services.EventRegistration;
+import org.example.concertlotterysystem.services.EventRegistrationService;
 import org.example.concertlotterysystem.services.EventService;
 import org.example.concertlotterysystem.services.PageRouterService;
 import org.example.concertlotterysystem.entities.LotteryDrawer;
@@ -110,7 +110,7 @@ public class EventDetailController implements Initializable {
 
         try {
             // 呼叫登記服務
-            EventRegistration.registerForEvent(memberId, current.getEventId());
+            EventRegistrationService.registerForEvent(memberId, current.getEventId());
 
             // 成功訊息
             alert.setAlertType(Alert.AlertType.INFORMATION);
@@ -131,7 +131,7 @@ public class EventDetailController implements Initializable {
                 // 用戶選擇「是」，執行取消操作
                 try {
                     // 假設您在 EventRegistration 中新增了一個取消方法
-                    EventRegistration.cancelRegistration(memberId, current.getEventId());
+                    EventRegistrationService.cancelRegistration(memberId, current.getEventId());
                     alert.setAlertType(Alert.AlertType.INFORMATION);
                     alert.setContentText("已成功取消 [" + current.getTitle() + "] 的登記。");
                 } catch (Exception cancelEx) {

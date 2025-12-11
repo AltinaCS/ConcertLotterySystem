@@ -2,7 +2,6 @@ package org.example.concertlotterysystem.controllers;
 import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.stage.Stage;
 import org.example.concertlotterysystem.repository.SqliteEventRepository;
 import org.example.concertlotterysystem.services.*;
 import org.example.concertlotterysystem.entities.Event; // 修正引入名稱
@@ -14,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -36,12 +34,12 @@ public class MainController implements Initializable {
     @FXML
     private GridPane eventGrid;
 
-    private QueryEvent queryEvent;
+    private QueryEventService queryEventService;
 
     private static final int COLUMNS = 3;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.queryEvent = new QueryEvent();
+        this.queryEventService = new QueryEventService();
         EventService eventService = new EventService(new SqliteEventRepository());
         eventService.syncEventStatuses();
         initializeUserState();
@@ -93,7 +91,7 @@ public class MainController implements Initializable {
     private void loadEvents(String keyword){
         eventGrid.getChildren().clear();
 
-        List<Event> events = queryEvent.searchEvents(keyword);
+        List<Event> events = queryEventService.searchEvents(keyword);
 
         int row = 0;
         int col = 0;

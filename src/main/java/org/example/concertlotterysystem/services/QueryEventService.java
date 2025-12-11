@@ -5,11 +5,11 @@ import org.example.concertlotterysystem.repository.EventDAO;
 
 import java.util.List;
 
-public class QueryEvent {
+public class QueryEventService {
 
     private EventDAO eventDAO;
 
-    public QueryEvent() {
+    public QueryEventService() {
         this.eventDAO = new EventDAO();
     }
 
