@@ -166,7 +166,7 @@ public class EventDetailController implements Initializable {
         }
         if (current.getStatus().equals(EventStatus.DRAWN) || current.getStatus().equals(EventStatus.CANCELLED)) {
             // 這不應該發生在 Event Detail 頁面，但仍需檢查
-            showAlert(Alert.AlertType.WARNING, "操作錯誤", "該活動已被抽過。");
+            showAlert(Alert.AlertType.WARNING, "操作錯誤", "該活動已抽籤過或已經結束。");
             return;
         }
 

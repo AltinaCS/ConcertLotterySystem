@@ -6,6 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="loginPage" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.concertlotterysystem.controllers.LoginController">
    <children>
@@ -17,5 +18,10 @@
       <Hyperlink fx:id="forgetPwdLink" layoutX="212.0" layoutY="274.0" onAction="#ChangePageToForgetPwdPage" text="忘記密碼?" />
       <Hyperlink fx:id="registerLink" layoutX="324.0" layoutY="274.0" onAction="#ChangePageToForgetRegisterPage" text="點我註冊" />
       <Label fx:id="messageLabel" layoutX="364.0" layoutY="314.0" />
+      <Label layoutX="10.0" layoutY="14.0" prefHeight="82.0" prefWidth="579.0" text="Concert Lottery System">
+         <font>
+            <Font size="52.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

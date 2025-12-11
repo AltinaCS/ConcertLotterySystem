@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class EventRegistrationService {
-
     public static void registerForEvent(String memberId, String eventId) throws Exception {
         EventDAO eventDAO = new EventDAO();
         Event event = eventDAO.getEventById(eventId);
