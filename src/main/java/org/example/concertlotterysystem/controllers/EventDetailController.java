@@ -97,7 +97,6 @@ public class EventDetailController implements Initializable {
         Event current = currentEvent.get();
         String memberId = SessionManager.getInstance().getCurrentMember().getMemberId();
 
-        // 基本檢查
         if (current == null) return;
         if (memberId == null) {
             showAlert(Alert.AlertType.ERROR, "錯誤", "請先登入才能登記活動。");
@@ -109,16 +108,13 @@ public class EventDetailController implements Initializable {
         alert.setHeaderText(null);
 
         try {
-            // 呼叫登記服務
             EventRegistrationService.registerForEvent(memberId, current.getEventId());
 
-            // 成功訊息
             alert.setAlertType(Alert.AlertType.INFORMATION);
             alert.setContentText("您已成功登記 [" + current.getTitle() + "]。");
             alert.showAndWait();
         }
         catch (CancelEventLotteryException e) {
-            // 🎯 捕獲特定的例外：用戶已登記，詢問是否取消
 
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationAlert.setTitle("取消登記確認");
@@ -128,9 +124,7 @@ public class EventDetailController implements Initializable {
             Optional<ButtonType> result = confirmationAlert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                // 用戶選擇「是」，執行取消操作
                 try {
-                    // 假設您在 EventRegistration 中新增了一個取消方法
                     EventRegistrationService.cancelRegistration(memberId, current.getEventId());
                     alert.setAlertType(Alert.AlertType.INFORMATION);
                     alert.setContentText("已成功取消 [" + current.getTitle() + "] 的登記。");
@@ -139,15 +133,13 @@ public class EventDetailController implements Initializable {
                     alert.setContentText("取消登記失敗：" + cancelEx.getMessage());
                 }
             } else {
-                // 用戶選擇「否」或關閉，顯示保留訊息
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setContentText("您選擇保留現有的登記狀態。");
             }
-            alert.showAndWait(); // 顯示最終結果
+            alert.showAndWait();
 
         }
         catch (Exception e) {
-            // 失敗訊息 (由 EventRegistration 拋出)
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setContentText("登記失敗：" + e.getMessage());
             alert.showAndWait();
@@ -160,12 +152,10 @@ public class EventDetailController implements Initializable {
         Event current = currentEvent.get();
 
         if (current == null) {
-            // 這不應該發生在 Event Detail 頁面，但仍需檢查
             showAlert(Alert.AlertType.WARNING, "操作錯誤", "無法識別當前活動。");
             return;
         }
         if (current.getStatus().equals(EventStatus.DRAWN) || current.getStatus().equals(EventStatus.CANCELLED)) {
-            // 這不應該發生在 Event Detail 頁面，但仍需檢查
             showAlert(Alert.AlertType.WARNING, "操作錯誤", "該活動已抽籤過或已經結束。");
             return;
         }
@@ -176,32 +166,26 @@ public class EventDetailController implements Initializable {
             return;
         }
 
-        // 3. 執行抽籤邏輯
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("活動抽籤：" + current.getTitle());
         alert.setHeaderText(null);
 
         try {
-            // 實例化 LotteryDrawer，傳入當前活動
             LotteryDrawer drawer = new LotteryDrawer(current);
 
-            // 執行抽籤，結果會被寫入資料庫 (依賴 LotteryDrawer.runLottery() 的 DB 寫入邏輯)
             drawer.runLottery();
             EventDAO eventDAO = new EventDAO();
-            eventDAO.updateStatus(current, EventStatus.DRAWN); // 假設 EventStatus.DRAWN 已定義
-            // 成功訊息
+            eventDAO.updateStatus(current, EventStatus.DRAWN);
             alert.setAlertType(Alert.AlertType.INFORMATION);
-            alert.setContentText("✅ 抽籤已完成。結果已儲存。");
+            alert.setContentText("抽籤已完成。結果已儲存。");
 
         } catch (RuntimeException e) {
-            // 處理 DAO 拋出的資料庫錯誤
             alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("❌ 抽籤失敗：資料庫操作或運行時錯誤。請檢查日誌。\n原因：" + e.getMessage());
+            alert.setContentText("抽籤失敗：資料庫操作或運行時錯誤。請檢查日誌。\n原因：" + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
-            // 處理其他異常
             alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("❌ 抽籤失敗：發生未知錯誤。\n原因：" + e.getMessage());
+            alert.setContentText("抽籤失敗：發生未知錯誤。\n原因：" + e.getMessage());
         }
         eventService.syncEventStatuses();
         updateUIWithEventData(currentEvent.get());
