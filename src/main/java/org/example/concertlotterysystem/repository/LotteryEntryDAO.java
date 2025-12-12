@@ -36,7 +36,7 @@ public class LotteryEntryDAO {
         }
     }
     public LotteryEntry findByMemberAndEvent(String memberId, String eventId) {
-        // 查詢 SQL：WHERE 條件需要同時滿足 member_id 和 event_id
+
         String sql = "SELECT entry_id, member_id, event_id, result FROM lottery_entries WHERE member_id = ? AND event_id = ? AND result = 'PENDING'";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -47,18 +47,18 @@ public class LotteryEntryDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    // 只需讀取第一筆結果
+
                     String entryId = rs.getString("entry_id");
                     String resultStr = rs.getString("result");
 
-                    // 處理可能為 null 的狀態
+
                     if (resultStr == null || resultStr.isEmpty()) {
                         resultStr = LotteryEntryStatus.PENDING.name();
                     }
 
                     LotteryEntryStatus status = LotteryEntryStatus.valueOf(resultStr);
 
-                    // 返回找到的 LotteryEntry 物件
+
                     return new LotteryEntry(entryId, eventId, memberId, status);
                 }
             }
@@ -67,11 +67,10 @@ public class LotteryEntryDAO {
         } catch (IllegalArgumentException e) {
             System.err.println("資料庫裡的狀態字串跟 Enum 對不上: " + e.getMessage());
         }
-        return null; // 未找到記錄
+        return null;
     }
     public List<LotteryEntry> findByMemberId(String memberId) {
         List<LotteryEntry> list = new ArrayList<>();
-        // 查詢 SQL：從 result 欄位讀取狀態
         String sql = "SELECT entry_id, event_id, member_id, result FROM lottery_entries WHERE member_id = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -84,16 +83,13 @@ public class LotteryEntryDAO {
                     String entryId = rs.getString("entry_id");
                     String eventId = rs.getString("event_id");
                     String memberIdFromDB = rs.getString("member_id");
-                    String resultStr = rs.getString("result"); // 從 result 欄位讀取
+                    String resultStr = rs.getString("result");
 
-                    // 檢查 resultStr 是否為 null (確保舊資料或未抽籤資料不會拋出 NPE/IllegalArgumentException)
                     if (resultStr == null || resultStr.isEmpty()) {
                         resultStr = LotteryEntryStatus.PENDING.name();
                     }
 
                     LotteryEntryStatus status = LotteryEntryStatus.valueOf(resultStr);
-
-                    // 使用 (entryId, eventId, memberId, status) 建構子
                     list.add(new LotteryEntry(entryId, eventId, memberIdFromDB, status));
                 }
             }
@@ -105,7 +101,7 @@ public class LotteryEntryDAO {
         return list;
     }
     public void updateStatusBatch(List<LotteryEntry> entries) {
-        // 🚨 注意：資料庫欄位名稱為 result
+
         String sql = "UPDATE lottery_entries SET result = ? WHERE entry_id = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -114,21 +110,21 @@ public class LotteryEntryDAO {
             conn.setAutoCommit(false); // 開始事務
 
             for (LotteryEntry entry : entries) {
-                stmt.setString(1, entry.getStatus().name()); // WON 或 LOST
+                stmt.setString(1, entry.getStatus().name());
                 stmt.setString(2, entry.getEntryId());
                 stmt.addBatch();
             }
 
             stmt.executeBatch();
-            conn.commit(); // 提交事務
+            conn.commit();
 
         } catch (SQLException e) {
             try {
-                // 嘗試回滾
+
                 Connection conn = DriverManager.getConnection(DB_URL);
                 conn.rollback();
             } catch (SQLException rollbackE) {
-                // 忽略回滾失敗
+
             }
             throw new RuntimeException("Failed to update lottery results in batch: " + e.getMessage(), e);
         }
@@ -139,32 +135,19 @@ public class LotteryEntryDAO {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            // 2. 設置參數
-
-            // 參數 1: result 欄位的值 (使用 Enum 的名稱字串)
             pstmt.setString(1, result.name());
-
-            // 參數 2: WHERE 條件 - member_id
             pstmt.setString(2, memberId);
-
-            // 參數 3: WHERE 條件 - event_id
             pstmt.setString(3, eventId);
-
-            // 3. 執行更新
             int rowsAffected = pstmt.executeUpdate();
-
-            // 💡 (可選) 檢查是否有紀錄被更新
             if (rowsAffected == 0) {
-                // Log 警告或拋出例外，如果預期應該有紀錄被找到
                 System.out.println("警告：找不到 Member ID: " + memberId + " 和 Event ID: " + eventId + " 的紀錄來更新狀態。");
             } else {
                 System.out.println("成功更新 " + rowsAffected + " 筆紀錄的狀態為: " + result.name());
             }
 
         } catch (SQLException e) {
-            // 處理資料庫連線或操作錯誤
             e.printStackTrace();
-            throw e; // 重新拋出例外，讓上層(Service/Controller)知道操作失敗
+            throw e;
         }
     }
 }

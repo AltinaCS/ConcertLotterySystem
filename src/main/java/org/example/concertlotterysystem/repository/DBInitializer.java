@@ -33,7 +33,7 @@ public class DBInitializer {
                 + " title TEXT NOT NULL,"
                 + " description TEXT,"
                 + " location TEXT,"
-                + " status TEXT NOT NULL,"  // <-- 確認 status 在這裡
+                + " status TEXT NOT NULL,"
                 + " quota INTEGER NOT NULL,"
                 + " per_member_limit INTEGER,"
                 + " event_time TEXT,"
@@ -54,7 +54,9 @@ public class DBInitializer {
 
         //需要擴充Table的話請往下寫
         //需要擴充Table時這個一定要擴充
+        /** **/
         String[] sql_tables = {sqlMembers,sqlEvents,sqlCredentials,sqlEntries};
+        /** **/
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
             for (String table: sql_tables){

@@ -11,11 +11,7 @@ import org.example.concertlotterysystem.entities.Event;
 import java.io.IOException;
 
 public class PageRouterService {
-
-    // 目前使用的主舞台（在 HelloApplication 啟動時設定）
     private static Stage primaryStage;
-
-    // 用來定位 FXML 資源的 class
     private static final Class<?> ROUTER_CLASS = PageRouterService.class;
     public static void setPrimaryPage(Stage currentStage) {
         PageRouterService.primaryStage = currentStage;
@@ -52,11 +48,8 @@ public class PageRouterService {
         }
 
         try {
-            // 1. 創建 FXMLLoader
             FXMLLoader loader = new FXMLLoader(PageRouterService.class.getResource(Constants.PATH_TO_FXML_PAGE+fxmlFileName));
             Parent root = loader.load();
-
-            // 2. 替換 Stage 的 Scene Root (保持邏輯不變)
             Scene scene = primaryStage.getScene();
             if (scene == null) {
                 scene = new Scene(root, width, height);
@@ -68,8 +61,6 @@ public class PageRouterService {
                 primaryStage.sizeToScene();
             }
             primaryStage.show();
-
-            // 3. 返回 Controller 實例
             return loader.getController();
 
         } catch (IOException e) {

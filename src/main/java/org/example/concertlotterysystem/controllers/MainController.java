@@ -132,9 +132,7 @@ public class MainController implements Initializable {
         Label title = new Label(event.getTitle());
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #333;");
         title.setWrapText(true);
-
-        Label statusLabel = new Label("狀態: " + event.getStatus().name());
-        statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #555;");
+        Label statusLabel = getStatusLabel(event);
 
         Label quotaLabel = new Label("名額: " + event.getQuota());
         quotaLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #555;");
@@ -157,6 +155,22 @@ public class MainController implements Initializable {
         card.getChildren().add(content);
         return card;
     }
+
+    private static Label getStatusLabel(Event event) {
+        String displayedStatus = "";
+        switch (event.getStatus()){
+            case DRAFT->displayedStatus= "活動尚未開放報名";
+            case OPEN-> displayedStatus = "活動開放報名";
+            case CLOSED->displayedStatus= "活動結束已報名，等待管理員抽籤";
+            case DRAWN->displayedStatus= "管理員已抽籤，請查看抽票結果";
+            case CANCELLED->displayedStatus= "活動結束已結束，或已被取消";
+            default-> displayedStatus = "N/A";
+        }
+        Label statusLabel = new Label("狀態: " + displayedStatus);
+        statusLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #555;");
+        return statusLabel;
+    }
+
     private void handleEventDetails(Event event) {
         EventDetailController controller = PageRouterService.changeThePageWithController("event-details-view.fxml", 600, 400);
         if(event!=null){

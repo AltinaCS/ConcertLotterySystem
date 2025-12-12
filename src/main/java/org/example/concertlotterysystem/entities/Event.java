@@ -80,7 +80,26 @@ public class Event {
                 now.isAfter(startTime) &&
                 now.isBefore(endTime);
     }
+    public String toString(){
 
+        return "Event {" +
+                "\n  eventId='" + eventId + '\'' +
+                ", \n  title='" + title + '\'' +
+                ", \n  description='" + description + '\'' +
+                ", \n  location='" + location + '\'' +
+                ", \n  status=" + status + // 假設 status 是 Enum 類型
+                ", \n  quota=" + quota +
+                ", \n  perMemberLimit=" + perMemberLimit +
+                ", \n  eventTime=" + eventTime + // 假設是 LocalDateTime 或類似類型
+                ", \n  startTime=" + startTime +
+                ", \n  endTime=" + endTime +
+                ", \n  drawTime=" + drawTime +
+                ", \n  entriesSize=" + entries.size() + // 僅顯示列表大小，避免輸出大量數據
+                // 如果需要顯示 entries 的完整內容，可以使用：
+                // ", \n  entries=" + entries +
+                "\n}";
+
+    }
     // ===== Getter & Setter =====
 
     public String getEventId() {

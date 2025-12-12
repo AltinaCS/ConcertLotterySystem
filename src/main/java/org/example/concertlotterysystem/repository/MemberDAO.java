@@ -20,10 +20,8 @@ public class MemberDAO {
      * @param member 待儲存的 Member 實體（不含密碼）
      */
     public void save(Member member) throws SQLException {
-        // SQL 語句只包含 member_id, name, email
-        String sql = "INSERT INTO members (member_id, name, email) VALUES (?, ?, ?)";
 
-        // 🚨 註意：這裡不需要檢查 OR IGNORE，因為 MemberService 已經做了 Email 唯一性檢查
+        String sql = "INSERT INTO members (member_id, name, email) VALUES (?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -34,7 +32,6 @@ public class MemberDAO {
             pstmt.executeUpdate();
 
         }
-        // 這裡不再捕獲 SQLException，讓它向上拋出給 Service 層處理事務（如果需要的話）
     }
 
     /**
@@ -43,7 +40,7 @@ public class MemberDAO {
      * @return 匹配的 Member 實體（不包含密碼），如果找不到則回傳 null。
      */
     public Member findByEmail(String email) {
-        // SQL 語句只查詢 members 表中的基礎資訊
+
         String sql = "SELECT member_id, name, email FROM members WHERE email = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -53,7 +50,6 @@ public class MemberDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                // 將查詢結果轉換為 Member 實體
                 return new Member(
                         rs.getString("member_id"),
                         rs.getString("name"),
@@ -65,6 +61,4 @@ public class MemberDAO {
         }
         return null;
     }
-
-    // (您可以視需要在此處擴充 getById, updateName 等方法)
 }

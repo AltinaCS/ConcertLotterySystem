@@ -29,7 +29,7 @@ public class EventRegistrationService {
         if (existingEntry != null && existingEntry.getStatus().equals(LotteryEntryStatus.PENDING)) {
             throw new CancelEventLotteryException("");
         }
-        // 先使用UUID幫Entry生成ID
+
         String newEntryId = UUID.randomUUID().toString();
         LotteryEntry lotteryEntry = new LotteryEntry(newEntryId, eventId, memberId, LotteryEntryStatus.PENDING);
         lotteryEntryDAO.save(lotteryEntry);

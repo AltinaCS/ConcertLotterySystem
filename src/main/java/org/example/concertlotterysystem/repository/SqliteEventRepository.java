@@ -1,5 +1,6 @@
 package org.example.concertlotterysystem.repository;
 
+import org.example.concertlotterysystem.constants.Constants;
 import org.example.concertlotterysystem.entities.Event;
 import org.example.concertlotterysystem.entities.EventStatus;
 
@@ -10,8 +11,7 @@ import java.util.List;
 
 public class SqliteEventRepository implements EventRepository {
 
-    // 要跟 DBInitializer 用同一個檔名
-    private static final String DB_URL = "jdbc:sqlite:lottery.db";
+    private static final String DB_URL = Constants.DB_URL;
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL);
@@ -138,9 +138,9 @@ public class SqliteEventRepository implements EventRepository {
 
     private void setDateTime(PreparedStatement ps, int index, LocalDateTime value) throws SQLException {
         if (value == null) {
-            ps.setNull(index, Types.VARCHAR);  // TEXT 欄位
+            ps.setNull(index, Types.VARCHAR);
         } else {
-            ps.setString(index, value.toString()); // 以 ISO-8601 字串存入
+            ps.setString(index, value.toString());
         }
     }
 
@@ -154,7 +154,7 @@ public class SqliteEventRepository implements EventRepository {
         String title = rs.getString("title");
         int quota = rs.getInt("quota");
 
-        // 用簡化建構子先建，再補其他欄位（符合你現在的 Event.java）
+
         Event event = new Event(eventId, title, quota);
 
         event.setDescription(rs.getString("description"));

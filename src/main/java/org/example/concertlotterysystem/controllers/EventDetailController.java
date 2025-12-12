@@ -69,10 +69,19 @@ public class EventDetailController implements Initializable {
 
     private void updateUIWithEventData(Event event) {
         if (event != null) {
+            String displayedStatus = "";
+            switch (event.getStatus()){
+                case DRAFT->displayedStatus= "活動尚未開放報名";
+                case OPEN-> displayedStatus = "活動開放報名";
+                case CLOSED->displayedStatus= "活動結束已報名，等待管理員抽籤";
+                case DRAWN->displayedStatus= "管理員已抽籤，請查看抽票結果";
+                case CANCELLED->displayedStatus= "活動結束已結束，或已被取消";
+                default-> displayedStatus = "N/A";
+            }
             titleLabel.setText(event.getTitle());
             locationLabel.setText(event.getLocation());
             descriptionLabel.setText(event.getDescription());
-            statusLabel.setText(event.getStatus().name());
+            statusLabel.setText(displayedStatus);
             quotaLabel.setText(String.valueOf(event.getQuota()));
             limitLabel.setText(String.valueOf(event.getPerMemberLimit()));
 
@@ -97,7 +106,6 @@ public class EventDetailController implements Initializable {
         Event current = currentEvent.get();
         String memberId = SessionManager.getInstance().getCurrentMember().getMemberId();
 
-        // 基本檢查
         if (current == null) return;
         if (memberId == null) {
             showAlert(Alert.AlertType.ERROR, "錯誤", "請先登入才能登記活動。");
@@ -109,16 +117,15 @@ public class EventDetailController implements Initializable {
         alert.setHeaderText(null);
 
         try {
-            // 呼叫登記服務
+
             EventRegistrationService.registerForEvent(memberId, current.getEventId());
 
-            // 成功訊息
             alert.setAlertType(Alert.AlertType.INFORMATION);
             alert.setContentText("您已成功登記 [" + current.getTitle() + "]。");
             alert.showAndWait();
         }
         catch (CancelEventLotteryException e) {
-            // 🎯 捕獲特定的例外：用戶已登記，詢問是否取消
+
 
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationAlert.setTitle("取消登記確認");
@@ -128,9 +135,9 @@ public class EventDetailController implements Initializable {
             Optional<ButtonType> result = confirmationAlert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                // 用戶選擇「是」，執行取消操作
+
                 try {
-                    // 假設您在 EventRegistration 中新增了一個取消方法
+
                     EventRegistrationService.cancelRegistration(memberId, current.getEventId());
                     alert.setAlertType(Alert.AlertType.INFORMATION);
                     alert.setContentText("已成功取消 [" + current.getTitle() + "] 的登記。");
@@ -139,15 +146,13 @@ public class EventDetailController implements Initializable {
                     alert.setContentText("取消登記失敗：" + cancelEx.getMessage());
                 }
             } else {
-                // 用戶選擇「否」或關閉，顯示保留訊息
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setContentText("您選擇保留現有的登記狀態。");
             }
-            alert.showAndWait(); // 顯示最終結果
+            alert.showAndWait();
 
         }
         catch (Exception e) {
-            // 失敗訊息 (由 EventRegistration 拋出)
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setContentText("登記失敗：" + e.getMessage());
             alert.showAndWait();
@@ -160,12 +165,10 @@ public class EventDetailController implements Initializable {
         Event current = currentEvent.get();
 
         if (current == null) {
-            // 這不應該發生在 Event Detail 頁面，但仍需檢查
             showAlert(Alert.AlertType.WARNING, "操作錯誤", "無法識別當前活動。");
             return;
         }
         if (current.getStatus().equals(EventStatus.DRAWN) || current.getStatus().equals(EventStatus.CANCELLED)) {
-            // 這不應該發生在 Event Detail 頁面，但仍需檢查
             showAlert(Alert.AlertType.WARNING, "操作錯誤", "該活動已抽籤過或已經結束。");
             return;
         }

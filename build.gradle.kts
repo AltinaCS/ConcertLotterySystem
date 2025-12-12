@@ -3,7 +3,6 @@ plugins {
     application
     id("org.javamodularity.moduleplugin") version "1.8.15"
     id("org.openjfx.javafxplugin") version "0.0.13"
-    // id("org.beryx.jlink") version "2.25.0"
     id("org.beryx.jlink") version "3.1.3"
 }
 
@@ -30,7 +29,7 @@ tasks.withType<JavaCompile> {
 
 application {
     mainModule.set("org.example.concertlotterysystem")
-    mainClass.set("org.example.concertlotterysystem.HelloApplication")
+
     mainClass.set("org.example.concertlotterysystem.application.Launcher")
 }
 
@@ -42,10 +41,7 @@ javafx {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
-    // 🚨 新增：用於密碼雜湊 (BCrypt)
     implementation("org.mindrot:jbcrypt:0.4")
-// 使用較簡單的版本
-// 確保版本相容
     implementation("org.xerial:sqlite-jdbc:3.46.0.0")
 }
 

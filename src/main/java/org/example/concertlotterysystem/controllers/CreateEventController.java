@@ -11,7 +11,7 @@ import org.example.concertlotterysystem.services.PageRouterService;
 
 public class CreateEventController {
 
-    // 基本欄位
+
     @FXML
     private TextField titleField;
 
@@ -21,14 +21,13 @@ public class CreateEventController {
     @FXML
     private TextArea descriptionArea;
 
-    // 活動時間（日期 + 時間）
+
     @FXML
     private DatePicker eventDatePicker;
 
     @FXML
     private TextField eventTimeField;     // HH:mm
 
-    // 報名起訖、開獎時間（字串輸入，格式 yyyy-MM-dd HH:mm）
     @FXML
     private TextField startTimeField;
 
@@ -38,26 +37,23 @@ public class CreateEventController {
     @FXML
     private TextField drawTimeField;
 
-    // 名額與每人上限
     @FXML
     private TextField quotaField;
 
-    // 按鈕
+
     @FXML
     private Button createButton;
 
     @FXML
     private Button cancelButton;
-
-    // Service：負責驗證與呼叫 Repository
     private final EventService eventService;
 
     public CreateEventController() {
-        // 簡單做法：這裡直接 new Repository + Service
+
         this.eventService = new EventService(new SqliteEventRepository());
     }
 
-    // 初始化：把 EventStatus 塞進下拉選單
+
     @FXML
     public void initialize() {
 
@@ -74,7 +70,6 @@ public class CreateEventController {
             String location = locationField.getText();
             String description = descriptionArea.getText();
 
-            // DatePicker -> yyyy-MM-dd 字串（若沒選日期則為 null）
             String eventDateStr = (eventDatePicker.getValue() != null)
                     ? eventDatePicker.getValue().toString()
                     : null;
@@ -88,7 +83,7 @@ public class CreateEventController {
 
 
 
-            // 呼叫 Service 做驗證＋轉型＋寫入 DB
+
             Event created = eventService.createEvent(
                     title,
                     description,
@@ -104,14 +99,11 @@ public class CreateEventController {
 
             showInfo("Event created",
                     "Event \"" + created.getTitle() + "\" has been saved to database.");
-            // 建立成功後清空表單
             clearForm();
 
         } catch (IllegalArgumentException ex) {
-            // 驗證失敗（必填、格式、時間順序等）
             showError("Validation Error", ex.getMessage());
         } catch (Exception ex) {
-            // DB 或其他非預期錯誤
             ex.printStackTrace();
             showError("Error", "Failed to create event: " + ex.getMessage());
         }
