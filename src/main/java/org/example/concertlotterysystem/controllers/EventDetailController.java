@@ -117,7 +117,6 @@ public class EventDetailController implements Initializable {
         alert.setHeaderText(null);
 
         try {
-
             EventRegistrationService.registerForEvent(memberId, current.getEventId());
 
             alert.setAlertType(Alert.AlertType.INFORMATION);
@@ -125,7 +124,6 @@ public class EventDetailController implements Initializable {
             alert.showAndWait();
         }
         catch (CancelEventLotteryException e) {
-
 
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationAlert.setTitle("取消登記確認");
@@ -179,32 +177,26 @@ public class EventDetailController implements Initializable {
             return;
         }
 
-        // 3. 執行抽籤邏輯
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("活動抽籤：" + current.getTitle());
         alert.setHeaderText(null);
 
         try {
-            // 實例化 LotteryDrawer，傳入當前活動
             LotteryDrawer drawer = new LotteryDrawer(current);
 
-            // 執行抽籤，結果會被寫入資料庫 (依賴 LotteryDrawer.runLottery() 的 DB 寫入邏輯)
             drawer.runLottery();
             EventDAO eventDAO = new EventDAO();
-            eventDAO.updateStatus(current, EventStatus.DRAWN); // 假設 EventStatus.DRAWN 已定義
-            // 成功訊息
+            eventDAO.updateStatus(current, EventStatus.DRAWN);
             alert.setAlertType(Alert.AlertType.INFORMATION);
-            alert.setContentText("✅ 抽籤已完成。結果已儲存。");
+            alert.setContentText("抽籤已完成。結果已儲存。");
 
         } catch (RuntimeException e) {
-            // 處理 DAO 拋出的資料庫錯誤
             alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("❌ 抽籤失敗：資料庫操作或運行時錯誤。請檢查日誌。\n原因：" + e.getMessage());
+            alert.setContentText("抽籤失敗：資料庫操作或運行時錯誤。請檢查日誌。\n原因：" + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
-            // 處理其他異常
             alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("❌ 抽籤失敗：發生未知錯誤。\n原因：" + e.getMessage());
+            alert.setContentText("抽籤失敗：發生未知錯誤。\n原因：" + e.getMessage());
         }
         eventService.syncEventStatuses();
         updateUIWithEventData(currentEvent.get());

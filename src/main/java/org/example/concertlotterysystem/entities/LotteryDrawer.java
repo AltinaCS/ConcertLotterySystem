@@ -12,6 +12,7 @@ public class LotteryDrawer {
     private int quota;
 
     private final LotteryDrawerDAO lotteryDrawerDAO = new LotteryDrawerDAO();
+    private final LotteryEntryDAO lotteryEntryDAO = new LotteryEntryDAO();
     private static final Random random = new Random();
 
     public LotteryDrawer(Event event){
@@ -22,7 +23,7 @@ public class LotteryDrawer {
     public void runLottery(){
         List<LotteryEntry> winList = new ArrayList<>();
         List<LotteryEntry> loseList = new ArrayList<>();
-        LotteryEntryDAO lotteryEntryDAO = new LotteryEntryDAO();
+
         if(lotteryEntryList.size() <= quota){
             winList = lotteryEntryList;
 
