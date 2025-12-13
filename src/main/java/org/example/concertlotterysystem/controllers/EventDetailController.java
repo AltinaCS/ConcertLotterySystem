@@ -68,7 +68,9 @@ public class EventDetailController implements Initializable {
     }
 
     private void updateUIWithEventData(Event event) {
+
         if (event != null) {
+            System.out.println(event);
             String displayedStatus = "";
             switch (event.getStatus()){
                 case DRAFT->displayedStatus= "活動尚未開放報名";
@@ -78,9 +80,9 @@ public class EventDetailController implements Initializable {
                 case CANCELLED->displayedStatus= "活動結束已結束，或已被取消";
                 default-> displayedStatus = "N/A";
             }
-            titleLabel.setText(event.getTitle());
-            locationLabel.setText(event.getLocation());
-            descriptionLabel.setText(event.getDescription());
+            titleLabel.setText((event.getTitle()!=null)? event.getTitle() : "N/A");
+            locationLabel.setText((event.getLocation()!=null)? event.getLocation() : "N/A");
+            descriptionLabel.setText((event.getDescription()!=null)? event.getDescription() : "N/A");
             statusLabel.setText(displayedStatus);
             quotaLabel.setText(String.valueOf(event.getQuota()));
             limitLabel.setText(String.valueOf(event.getPerMemberLimit()));

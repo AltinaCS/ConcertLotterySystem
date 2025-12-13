@@ -33,14 +33,20 @@ public class EventDAO {
                         rs.getInt("quota")
                 );
 
-                // 2. 設定狀態與時間
+                // 2. 設定狀態與時間以及非必要資訊
                 event.setStatus(EventStatus.valueOf(rs.getString("status")));
                 String start = rs.getString("start_time");
                 String end = rs.getString("end_time");
-
+                String draw = rs.getString("draw_time");
+                String eventTime = rs.getString("event_time");
+                String location = rs.getString("location");
+                String description = rs.getString("description");
+                if (location != null) event.setLocation(location);
+                if (description != null) event.setDescription(description);
                 if (start != null) event.setStartTime(LocalDateTime.parse(start, FORMATTER));
                 if (end != null) event.setEndTime(LocalDateTime.parse(end, FORMATTER));
-
+                if (draw != null) event.setDrawTime(LocalDateTime.parse(draw, FORMATTER));
+                if (eventTime != null) event.setEventTime(LocalDateTime.parse(eventTime, FORMATTER));
                 resultList.add(event);
             }
         } catch (SQLException e) {
