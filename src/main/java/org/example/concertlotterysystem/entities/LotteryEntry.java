@@ -6,13 +6,6 @@ public class LotteryEntry {
     private String memberId;
     private LotteryEntryStatus status;
 
-    public LotteryEntry(String entryId, String eventId, String memberId) {
-        this.entryId = entryId;
-        this.eventId = eventId;
-        this.memberId = memberId;
-        this.status = LotteryEntryStatus.PENDING;
-    }
-
     public LotteryEntry(String entryId, String eventId, String memberId, LotteryEntryStatus status){
         this.entryId = entryId;
         this.eventId = eventId;

@@ -1,8 +1,5 @@
 package org.example.concertlotterysystem.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Member {
     private String memberId;
     private String name;

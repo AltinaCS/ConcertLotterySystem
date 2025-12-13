@@ -84,7 +84,6 @@ public class EventDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                // initialize data with constructor
                 event = new Event(
                         rs.getString("event_id"),
                         rs.getString("title"),

@@ -32,7 +32,6 @@ public class LotteryDrawerDAO {
 
                     LotteryEntryStatus resultStatus = LotteryEntryStatus.valueOf(resultStr);
 
-                    // 5. 建立物件並加入清單
                     LotteryEntry entry = new LotteryEntry(entryId, eventId, memberId, resultStatus);
                     list.add(entry);
                 }

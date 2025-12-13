@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.example.concertlotterysystem.entities.LotteryEntryStatus.CANCELLED;
-
 public class LotteryEntryDAO {
 
     private static final String DB_URL = "jdbc:sqlite:lottery.db";
